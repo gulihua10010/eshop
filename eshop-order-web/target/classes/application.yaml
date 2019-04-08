@@ -1,0 +1,27 @@
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  type-aliases-package: cn.jianwoo.eshop.manage.entity
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://192.168.99.103:3308/mymall
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+  thymeleaf:
+    cache: false
+  redis:
+    timeout: 5000ms
+    host: 192.168.99.103
+    port: 6380
+server:
+  port: 8005
+dubbo:
+  application:
+    name: cat-service
+#    qos-enable: true
+#    qos-port: 25004
+#    qos-accept-foreign-ip: false
+  registry:
+    address: zookeeper://192.168.99.103:2181
+

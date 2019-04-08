@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<!-- saved from url=(0020)http://localhost/ws/ -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="head::head"></head>
+<body>
+ <div  th:replace="top::top"></div>
+
+ <input type="hidden" id="token" value=" ">
+ <div class="wst-regist-b">
+     <div class="wst-container">
+         <div class="wst-regist">
+             <div class="wst-regist-c">
+                 <input type="hidden" id="nameType" class="wst_ipt nameType" value="2" autocomplete="off">
+                 <form id="reg_form" method="post" autocomplete="off" class="nice-validator n-default" novalidate="novalidate">
+                     <div class="wst-regist-head">Hi～欢迎来注册</div>
+                     <table class="wst-table">
+                         <tbody>
+                         <tr class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>用户名</td>
+                             <td><input id="loginName" name="loginName" class="wst_ipt wst-regist-input" tabindex="1" maxlength="30" autocomplete="off" onpaste="return false;" style="ime-mode:disabled;" placeholder="用户名(字母开头，不少于6位)" type="text"  aria-required="true"></td>
+                         </tr>
+                         <tr class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>昵称</td>
+                             <td><input id="nickName" name="nickName" class="wst_ipt wst-regist-input" tabindex="1" maxlength="30" autocomplete="off" onpaste="return false;" style="ime-mode:disabled;" placeholder="昵称" type="text"  aria-required="true"></td>
+                         </tr>
+                         <tr class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>手机号</td>
+                             <td><input id="phone" name="phone" class="wst_ipt wst-regist-input" tabindex="1" maxlength="30" autocomplete="off"   style="ime-mode:disabled;" placeholder="手机号" type="text" onkeyup="javascript:WST.isChinese(this,1)" aria-required="true"></td>
+                         </tr>
+                         <tr class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>密码</td>
+                             <td><input id="loginPwd" name="loginPwd" class="wst_ipt wst-regist-input n-invalid" tabindex="2" style="ime-mode:disabled;" autocomplete="off" type="password" placeholder="6-16位字符" aria-required="true" aria-invalid="true">
+                              </td>
+                         </tr>
+                         <tr class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>确认密码</td>
+                             <td><input id="reUserPwd" name="reUserPwd" class="wst_ipt wst-regist-input" tabindex="3" autocomplete="off" type="password" placeholder="6-16位字符" aria-required="true"></td>
+                         </tr>
+                         <tr id="mobileCodeDiv" class="wst-login-tr">
+                             <td class="wst-regist-td"><font color="red">*</font>短信验证码</td>
+                             <td>
+                                 <input maxlength="6" autocomplete="off" tabindex="6" class="wst_ipt wst-regist-codemo" name="mobileCode" style="ime-mode:disabled" id="mobileCode" type="text" data-target="#mobileCodeTips" placeholder="短信验证码">
+                                 <button type="button" id="timeTips" onclick="getVerifyCode();" class="wst-regist-obtain">获取短信验证码</button>
+                                 <span id="mobileCodeTips"></span>
+                             </td>
+                         </tr>
+
+                         <tr style="height:80px;">
+                             <td colspan="2" style="padding-left:260px;">
+                                 <button id="reg_butt" class="wst-regist-but" type="reg_form"   style="width: 180px;height:30px;">注册</button>
+                             </td>
+                         </tr>
+                         </tbody></table>
+                 </form>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+ <script>$(function(){initRegist();})</script>
+
+</body></html>

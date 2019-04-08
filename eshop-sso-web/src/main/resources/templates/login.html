@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<!-- saved from url=(0020)http://localhost/ws/ -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="head::head"></head>
+<body>
+ <div  th:replace="logintop::top"></div>
+ <div  th:replace="logintop::top1"></div>
+ <style>
+
+     .show{
+         display: block;
+     }
+     .hide{
+         display: none;;
+     }
+ </style>
+ <div class="wst-login-middle" style="background: url(/img/bg.jpg) no-repeat top center;">
+     <div class="wst-container">
+         <div class="wst-login_l">
+             <div class="wst-login_r">
+                 <form method="post" autocomplete="off" class="nice-validator n-default" novalidate="novalidate">
+                     <span class="wst-login-u">用户登录</span>
+                     <input type="hidden" id="typ" value="0" class="ipt">
+                     <div class="wst-item wst-item-box" style="margin-top: 20px;">
+                         <div for="loginname" class="login-img" ></div>
+                         <input id="loginName" name="loginName" style="  border: #eee solid 1px;position: relative;top: -35px;left: 32px;"   class="ipt wst-login-input-1" tabindex="1" value="" autocomplete="off" type="text" data-msg-required="请填写用户名" data-tip="请输入用户名" placeholder="用户名/手机号" aria-required="true">
+                     </div>
+                     <div class="wst-item wst-item-box">
+                         <div for="loginname" class="password-img" style="  position: relative;top: -18px; "> </div>
+                         <input id="loginPwd" name="loginPwd" class="ipt wst-login-input-1 n-valid"   style=" border: #eee solid 1px; position: relative;top: -52px;left: 32px;" tabindex="2" autocomplete="off" type="password" data-msg-required="请填写密码" data-tip="请输入密码" placeholder="密码" aria-required="true">
+                     </div>
+                     <div class="wst-item ">
+                         <div for="loginname" class="yanzheng-img" style="position: relative;right: 290px;top:-34px"></div>
+                         <div id="embed-captcha" style=" position: relative;left: 30px"></div>
+                         <span id="wait" class="show"  style="position: relative; width: 100%; float: left;top:-50px;margin-left: 40px">正在加载验证码......</span>
+                         <p id="notice" class="hide"  style="position: relative;  ">请先完成验证</p>
+                           </div>
+                     <table class="wst-table">
+                         <tbody><tr class="wst-login-tr">
+                             <td colspan="2" style="padding-left:0px;">
+                                 <input id="rememberPwd" name="rememberPwd" class="ipt wst-login-ch" checked="checked" type="checkbox">
+                                 <label>记住密码</label>
+                                 <label><a style="color:#b2b1b1;padding-left: 140px;float:right;" href="/register">免费注册</a></label>
+                             </td>
+                         </tr>
+                         </tbody></table>
+                     <div class="wst-item wst-item-box" style="border: 0;">
+                         <div style="width:100%;height:32px;line-height:32px;float:left;"><a class="wst-login-but" href="javascript:void(0);"  >登录</a></div>
+                     </div>
+
+
+                 </form>
+             </div>
+         </div>
+     </div>
+     <div class="wst-clear"></div>
+ </div>
+
+
+<div class="footer-line"></div>
+
+
+
+
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+ <script>
+     $(document).keypress(function(e) {
+         if(e.which == 13) {
+             // login();
+         }
+     });
+
+     var handlerEmbed = function (captchaObj) {
+         var f=1;
+         $(".wst-login-but").click(function (e) {
+             var validate = captchaObj.getValidate();
+
+             if (!validate) {
+                 $("#notice")[0].className = "show";
+                 setTimeout(function () {
+                     $("#notice")[0].className = "hide";
+                 }, 2000);
+                 e.preventDefault();
+             }else{
+                 $.ajax({
+                     url:"/VerifyLogin",
+                     type:'post',
+                     dataType:'json',
+                     data:{
+                         geetest_challenge: validate.geetest_challenge,
+                         geetest_validate: validate.geetest_validate,
+                         geetest_seccode: validate.geetest_seccode,
+                     },
+                     success:function (data) {
+                         login("/toLogin","[[${homeurl} ]]");
+
+                     }
+                 })
+             }
+         });
+         captchaObj.appendTo("#embed-captcha");
+         captchaObj.onReady(function () {
+             $("#wait")[0].className = "hide";
+         });
+     };
+     var url="/GeetestStart?t="+(new Date).getTime();
+
+     $.ajax({
+         // 获取id，challenge，success（是否启用failback）
+
+         url:url, // 加随机数防止缓存
+         type: "get",
+         dataType: "json",
+         success: function (res) {
+             console.log(res.data.gt)
+             // console.log(data);
+             // 使用initGeetest接口
+             // 参数1：配置参数
+             // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+             initGeetest({
+                 gt: res.data.gt,
+                 challenge: res.data.challenge,
+                 new_captcha: res.data.new_captcha,
+                 product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                 offline: !res.data.success ,// 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                 width:'280px',
+                 // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+             }, handlerEmbed);
+         },
+
+     });
+ </script>
+
+
+</body></html>

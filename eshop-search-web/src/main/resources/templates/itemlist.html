@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+    <input type="hidden" id="keyword" class="sipt" value="鲜水果">
+    <input type="hidden" id="orderBy" class="sipt" value="">
+    <input type="hidden" id="order" class="sipt" value="1">
+    <input type="hidden" id="areaId" class="sipt" value="0">
+    <div class="wst-filters">
+        <div class="item" style="border-left:2px solid #df2003;padding-left: 8px;">
+            <a class="link" href="http://localhost/ws">全部结果</a>
+            <i class="arrow">&gt;</i>
+        </div>
+        <div class="wst-lfloat keyword">鲜水果</div>
+        <div class="wst-clear"></div>
+    </div>
+
+    <div class="wst-container">
+        <div class="goods-side">
+            <div class="guess-like">
+                <div class="title">猜你喜欢</div>
+                <div class="item" th:each="l:${like}">
+                    <div class="img"><a target="_blank" href="" th:href="${itemurl}+'/item/detail?id='+${l.id}">
+                        <img class="goodsImg"  th:alt="${l.title}" th:title="${l.title}"  th:src="${l.image}" style="display: inline;"></a></div>
+                    <div class="p-name"><a class="wst-hide wst-redlink" th:text="${l.title}" ></a></div>
+                    <div class="p-price">￥[[${l.price/100.00}]]<span class="v-price">￥[[${l.price/100.00}]]</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="goods-main">
+
+            <div class="goods-list">
+                <div class="goods"  th:each="l:${items}">
+                    <div class="img">
+                        <a target="_blank" th:href="${itemurl}+'/item/detail?id='+${l.id}">
+
+                            <img th:title="${l.title}"  th:alt="${l.title}" class="goodsImg2" th:src="${l.image}"   style="display: inline;"></a>
+                    </div>
+
+                    <div class="p-name">
+                        <a target="_blank" th:href="${itemurl}+'/item/detail?id='+${l.id}" class="wst-redlink" title="同城果鮮 进口车厘子京东新鲜水果1kg 单果约28-30mm 大樱桃 生鲜">同城果鮮 进口车厘子京东新鲜水果1kg 单果约28-30mm 大樱桃 生鲜</a></div>
+                    <div>
+                        <div class="p-price">￥[[${l.price/100.00}]]</div>
+                        <div class="p-hsale">
+                            <a class="p-add-cart" style="display:none;" href="javascript: ">加入购物车</a>
+                        </div>
+                        <div class="wst-clear"></div>
+                    </div>
+                    <div>
+                        <div class="p-mprice">市场价<span>￥[[${l.price/100.00}]]</span></div>
+                        <div class="wst-clear"></div>
+                    </div>
+                    <div class="p-shop">
+                        <a  th:href="${itemurl}+'/item/detail?id='+${l.id}" target="_blank" class="wst-redlink"> 自营超市</a>
+                    </div>
+                    <div class="tags">
+                        <span class="tag">自营</span>	      	  	      	</div>
+                </div>
+
+
+                <div class="wst-clear"></div>
+            </div>
+            <div style="width:980px;">
+                <div id="wst-pager"></div>
+            </div>
+
+        </div>
+        <div class="wst-clear"></div>
+
+    </div>
+
+    <div class="wst-cont-frame" id="j-cont-frame">
+        <div class="head"><span>对比栏</span><a href="javascript:void(0);" class="close" onclick="javascript:contrastGoods(0,0,0)">关闭</a></div>
+        <div class="list">
+            <div class="goods" id="contrastList">            <div class="term-empty">    <div class="img">1</div>    <div class="info"><p>您还可以继续添加</p></div>   </div>      <div class="term-empty">    <div class="img">2</div>    <div class="info"><p>您还可以继续添加</p></div>   </div>      <div class="term-empty">    <div class="img">3</div>    <div class="info"><p>您还可以继续添加</p></div>   </div>      <div class="term-empty">    <div class="img">4</div>    <div class="info"><p>您还可以继续添加</p></div>   </div>        </div>
+            <div class="term-contrast">
+                <p><a class="contrast" href="http://localhost/ws/home/goods/contrast.html" target="_blank">对比</a></p>
+                <p><a href="javascript:void(0);" onclick="javascript:contrastDels(0)" class="empty">清空</a></p>
+            </div>
+        </div>
+        <script id="colist" type="text/html">
+            {{# if(d.data && d.data.length>0){ }}
+            {{# for(var i=0; i<d.data.length; i++){ }}
+            <div class="term">
+                <div class="img"><a href="{{WST.U('home/goods/detail','goodsId='+d.data[i].goodsId)}}" target="_blank"><img class="contImg" data-original="/ws/{{ d.data[i].goodsImg }}" title="{{ d.data[i].goodsName }}" width="50" height="50"></a></div>
+                <div class="info"><a href="{{WST.U('home/goods/detail','goodsId='+d.data[i].goodsId)}}" target="_blank"><p class="name">{{ d.data[i].goodsName }}</p></a><p class="price"><span>￥{{ d.data[i].shopPrice }}</span><a href="javascript:contrastDels({{ d.data[i].goodsId }});" >删除</a></p></div>
+            </div>
+            {{# } }}
+            {{# } }}
+            {{# var data = (d.data)?d.data.length:0 }}
+            {{# for(var i=data+1; i<5; i++){ }}
+            <div class="term-empty">
+                <div class="img">{{ i }}</div>
+                <div class="info"><p>您还可以继续添加</p></div>
+            </div>
+            {{# } }}
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+
+
+<div class="wst-container">
+    <div id="stepflex" class="stepflex">
+        <dl class="first doing">
+            <dt class="s-num">1</dt>
+            <dd class="s-text">我的购物车</dd>
+            <dd></dd>
+        </dl>
+        <dl class="normal">
+            <dt class="s-num1">2</dt>
+            <dd class="s-text1">填写核对订单信息</dd>
+        </dl>
+        <dl class="third">
+            <dt class="s-num1">3</dt>
+            <dd class="s-text1">支付</dd>
+        </dl>
+        <dl class="last">
+            <dt class="s-num1">4</dt>
+            <dd class="s-text1">成功提交订单</dd>
+        </dl>
+    </div>
+    <div class="wst-clear"></div>
+    <div class="main-head">我的购物车</div>
+    <div class="cart-box">
+        <div class="cart-head">
+            <div class="chk"><input type="checkbox"  onclick='checkChks(this,".j-chk")'>全选</div>
+            <div class="goods">商品</div>
+            <div class="price">单价</div>
+            <div class="stock">库存</div>
+            <div class="num">数量</div>
+            <div class="t-price">总价</div>
+            <div class="action">操作</div>
+        </div>
+        <div class="cart-item" th:if="${isempty}==false">
+            <div class="shop">
+                <div class="wst-clear"></div>
+            </div>
+            <div class="goods-list">
+                <div  th:class="'item j-chk  j-s'+${item.id}+'j-g'+${s}   "
+                      style="border-width: 0px 0px 1px; border-style: solid; height: 150px; border-color: rgb(238, 238, 238); border-image: initial;" th:each="item,s:${items}">
+                    <div class="chk">
+                        <input id="gchk_2" th:id="'gchk_'+${item.id}"
+                               type="checkbox"    th:attr="mval=${item.price/100.00},sval=${item.num}"
+                               th:value="${item.id}"
+                               th:class="'j-chk  j-g   j-s'+${item.id}+' j-gchk'"
+                               th:onclick="'checkChks(this,\'.j-g \')'" ></div>
+                    <div class="goods" style="height: 150px">
+                        <div class="img">
+                            <a   th:href="${itemurl}+'/item/detail?id='+${item.id}" target="_blank">
+                                <img th:src="${item.image}" width="80" height="80"
+                                     th:title="${item.title}" >
+                            </a>
+                        </div>
+                        <div class="name" th:text="${item.title}"> </div>
+                        <div class="spec">
+                        </div>
+                    </div>
+                    <div class="price">¥[[${item.price/100.00}]]</div>
+                    <div class="stock">[[${item.num}]]</div>
+                    <div class="num">
+                        <a  class="buy-btn"   th:id="'buy-reduce_'+${item.id}" onclick="changeIptNum()"
+                            th:onclick="'javascript:WST.changeIptNum(-1,\'#buyNum\',\'#buy-reduce,#buy-add\','+${item.id}+',\'statCartMoney\')'"   >-</a>
+                        <input type="text"  th:id="'buyNum_'+${item.id}" class="buy-num" th:value="${item.selnum}" th:attr="data-max=${item.num},data-min=1"
+                                 autocomplete="off" th:onkeyup="'WST.changeIptNum(0,\'#buyNum\',\'#buy-reduce,#buy-add\','+${item.id}+',\'statCartMoney\')'"
+                               onkeypress="return WST.isNumberKey(event);" maxlength="6">
+                        <a  class="buy-btn" id="buy-add_2"   th:id="'buy-add_'+${item.id}"
+                            th:onclick="'javascript:WST.changeIptNum(1,\'#buyNum\',\'#buy-reduce,#buy-add\','+${item.id}+',\'statCartMoney\')'"  >+</a>
+                        <div id="err_2" class="wst-clear"></div>
+                    </div>
+                    <div class="t-price">¥<span   th:id="'tprice_'+${item.id}"></span></div>
+                    <div class="action"><a   th:href="'javascript:WST.delCart('+${item.id}+')'">删除</a></div>
+                    <div class="wst-clear"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="cart-footer selected2" th:if="${isempty}==false">
+            <div class="cart-summary">
+                <div class="summary">应付总金额(不含运费)：¥<span id="totalMoney">0</span></div>
+                <div class="wst-clear"></div>
+            </div>
+        </div>
+        <div class="cart-btn" th:if="${isempty}==false">
+            <a   class="wst-contnue wst-cart-asha"  th:href="${homeurl}+'/index'" >继续购物</a>
+            <a  onclick="toSettlement()" class="wst-next wst-cart-reda">结算</a>
+            <div class="wst-clear"></div>
+        </div>
+        <div class='empty-cart'  th:if="${isempty}==true">
+            您还没有添加商品哦，快去<a  th:href="${homeurl}+'/index'" >逛逛</a>吧~
+        </div>
+    </div>
+</div>
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+
+
+<script async="async" type="text/javascript" src="/js/carts.js"></script>
+
+
+
+</body>
+</html>

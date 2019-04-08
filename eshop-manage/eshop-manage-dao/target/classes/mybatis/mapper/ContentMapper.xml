@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.ContentMapper">
+    <resultMap id="MiniResultMap" type="cn.jianwoo.eshop.manage.entity.Content">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="category_id" property="categoryId" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="sub_title" property="subTitle" jdbcType="VARCHAR"/>
+        <result column="title_desc" property="titleDesc" jdbcType="VARCHAR"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="pic" property="pic" jdbcType="VARCHAR"/>
+        <result column="pic2" property="pic2" jdbcType="VARCHAR"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.Content" extends="MiniResultMap">
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="getContentListByCategoryId" parameterType="java.lang.Long" resultMap="MiniResultMap">
+        SELECT id, title, sub_title, title_desc, url, pic, pic2, created, updated
+        FROM content
+        WHERE category_id = #{categoryId}
+    </select>
+
+    <select id="getAllContentList" resultMap="MiniResultMap">
+        SELECT id, title, sub_title, title_desc, url, pic, pic2, created, updated
+        FROM content
+    </select>
+
+    <insert id="insertContent" parameterType="cn.jianwoo.eshop.manage.entity.Content">
+        INSERT INTO content
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="id !=null">
+                id,
+            </if>
+            <if test="categoryId !=null">
+                category_id,
+            </if>
+            <if test="subTitle !=null">
+                sub_title,
+            </if>
+            <if test="titleDesc !=null">
+                title_desc,
+            </if>
+            <if test="url !=null">
+                url,
+            </if>
+            <if test="pic !=null">
+                pic,
+            </if>
+            <if test="pic2 !=null">
+                pic2,
+            </if>
+            <if test="content !=null">
+                content,
+            </if>
+            <if test="created !=null">
+                created,
+            </if>
+            <if test="updated !=null">
+                updated,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffixOverrides="," suffix=")">
+            <if test="id !=null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId !=null">
+                #{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="subTitle !=null">
+                #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="titleDesc !=null">
+                #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="url !=null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="pic !=null">
+                #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="pic2 !=null">
+                #{pic2,jdbcType=VARCHAR},
+            </if>
+            <if test="content !=null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="created !=null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated !=null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateContent" parameterType="cn.jianwoo.eshop.manage.entity.Content">
+        update  content
+        <set>
+            <if test="id !=null">
+                id =#{id,jdbcType=BIGINT},
+            </if>
+            <if test="categoryId !=null">
+                category_id=#{categoryId,jdbcType=BIGINT},
+            </if>
+            <if test="subTitle !=null">
+                sub_title=   #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="titleDesc !=null">
+                title_desc= #{subTitle,jdbcType=VARCHAR},
+            </if>
+            <if test="url !=null">
+                url=   #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="pic !=null">
+                pic=   #{pic,jdbcType=VARCHAR},
+            </if>
+            <if test="pic2 !=null">
+                pic2=  #{pic2,jdbcType=VARCHAR},
+            </if>
+            <if test="content !=null">
+                content=   #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="created !=null">
+                created=   #{created,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updated !=null">
+                created=  #{updated,jdbcType=TIMESTAMP},
+            </if>
+
+        </set>
+        where  id=#{id,jdbcType=BIGINT}
+
+
+    </update>
+</mapper>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-main">
+    <div th:replace="left::menu"></div>
+
+
+    <div class="wst-user-head" style="margin-bottom:3px;"><span>管理地址</span></div>
+    <form id="useraddressForm" autocomplete="off" class="nice-validator n-default" novalidate="novalidate">
+        <table class="wst-form">
+            <tbody>
+            <tr>
+                <th><font color="red">*</font>区域：</th>
+                <td>
+                    <div data-toggle="distpicker" id="distpicker">
+                        <select class="form-control j-eipt ipt" name="receiverProvinces"  ></select>
+                        <select class="form-control j-eipt ipt"  name="receiverCity"></select>
+                        <select class="form-control j-eipt ipt" name="receiverDistrict"></select>
+                    </div>
+                </td>
+                <td colspan="3">
+                    <div style="width:400px;height:20px;float:left" id="errorMsg"></div>
+                </td>
+            </tr>
+            <tr>
+                <th width="110"><font color="red">*</font>详细地址：</th>
+                <td>
+                    <input type="text" class="ipt" id="userAddress" name="receiverAddress" value="" placeholder="您的详细地址"
+                           th:value="${address==null?'':address.receiverAddress}"
+                           maxlength="30" aria-required="true" data-tip="请输入您的收货地址">
+                </td>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font>联系名称：</th>
+                <td>
+                    <input type="text" class="ipt" id="userName" name="receiverName" value="" placeholder="联系名称"
+                           th:value="${address==null?'':address.receiverName}"
+                           maxlength="20" aria-required="true" data-tip="请输入您的名称">
+                </td>
+            </tr>
+
+            <tr>
+                <th><font color="red">*</font>联系电话：</th>
+                <td>
+                    <input type="text" class="ipt contact" id="userPhone" name="receiverPhone" value="" placeholder="联系电话"
+                           th:value="${address==null?'':address.receiverPhone}"
+                           aria-required="true" data-tip="请输入您的联系电话">
+                </td>
+            </tr>
+            <tr>
+                <th><font color="red">*</font>是否默认地址：</th>
+                <td>
+                    <div class="radio-box">
+                        <label><input type="radio" class="ipt wst-radio" id="isDefault-1" name="isDefault" value="1"  th:checked="${address==null?false:address.isDefault==1}"
+                                      data-tip="是否作为默认地址"><label class="mt-1" for="isDefault-1"></label> 是</label>
+                        <label><input type="radio" class="ipt wst-radio" id="isDefault-0" name="isDefault" checked=""
+                                      value="0" data-tip="是否作为默认地址"   th:checked="${address==null?false:address.isDefault==0}"><label class="mt-1" for="isDefault-0"></label>
+                            否</label>
+                    </div>
+
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div class="addr-btn-box">
+            <input type="hidden" name="id" id="addressId" class="ipt" value="0" th:value="${address==null?'':address.id}">
+            <button type="submit" class="wst-sec-but u-btn">提交</button>
+            <button type="button" onclick="javascript:history.go(-1)" class="wst-sec-but u-btn">返回</button>
+        </div>
+    </form>
+    <style>
+        .addr-btn-box {
+            margin-left: 10%;
+        }
+    </style>
+    <script type="text/javascript" src="/js/user.js"></script>
+    <script type="text/javascript" src="/js/useraddress.js"></script>
+    <script src="/js/distpicker.js"></script>
+
+
+    <script>
+        $(function(){
+
+            userAddrEditInit();
+            $("#distpicker").distpicker('destroy')
+            $("#distpicker").distpicker({
+                province:"[[${address==null?'':address.receiverProvinces}]]",
+                city:"[[${address==null?'':address.receiverCity}]]",
+                district: "[[${address==null?'':address.receiverDistrict}]]",
+            });
+
+
+        })
+
+    </script>
+</div>
+</body>
+</html>

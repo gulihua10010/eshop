@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>首页幻灯片</title>
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+
+    <script src="/static/layuiadmin/layui/layui.js"></script>
+    <script src="/static/js/common.js"></script>
+    <style>
+        .lableppt{
+            background-color: rgb(235,235,235);width: 100%;height: 30px; padding: 5px;margin: 10px;
+        }
+        
+    </style>
+</head>
+<body>
+<div class="layui-tab-brief">
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <div   class="lableppt" >幻灯片一</div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名字</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="" required lay-verify="required" placeholder="请输入名称" th:value="${ppt.get(0).name}"
+                           class="layui-input required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" value=""  required lay-verify="required" placeholder="链接" class="layui-input" th:value="${ppt.get(0).url}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status1" value="1" title="显示" th:checked="${ppt.get(0).status==1}"  >显示
+                    <input type="radio" name="status1" value="0" title="隐藏" th:checked="${ppt.get(0).status==0}" >隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" id="pic1">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <input type="text" name="image1" class="layui-input image" th:value="${ppt.get(0).pic}"
+                           style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" id="pre-image1"
+                 >
+                <label class="layui-form-label">图片预览</label>
+                <img id="uploaded-image1" width="150px" th:src="@{${ppt.get(0).pic}}" >
+            </div>
+            <div   class="lableppt" >幻灯片二</div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名字</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="" required lay-verify="required" placeholder="请输入名称" th:value="${ppt.get(1).name}"
+                           class="layui-input required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" value=""  required lay-verify="required" placeholder="链接" class="layui-input" th:value="${ppt.get(1).url}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status2" value="1" title="显示" th:checked="${ppt.get(1).status==1}" >显示
+                    <input type="radio" name="status2" value="0" title="隐藏" th:checked="${ppt.get(1).status==0}" >隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" id="pic2">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <input type="text" name="image2" class="layui-input image" th:value="${ppt.get(1).pic}"
+                           style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required" >
+                </div>
+            </div>
+            <div class="layui-form-item" id="pre-image2"
+                 >
+                <label class="layui-form-label">图片预览</label>
+                <img id="uploaded-image2" width="150px" th:src="@{${ppt.get(1).pic}}" >
+            </div>
+            <div   class="lableppt" >幻灯片三</div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名字</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="" required lay-verify="required" placeholder="请输入名称" th:value="${ppt.get(2).name}"
+                           class="layui-input required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" value=""  required lay-verify="required" placeholder="链接" class="layui-input" th:value="${ppt.get(2).url}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status3" value="1" title="显示" th:checked="${ppt.get(2).status==1}" >显示
+                    <input type="radio" name="status3" value="0" title="隐藏" th:checked="${ppt.get(2).status==0}" >隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" id="pic3">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <input type="text" name="image3" class="layui-input image" th:value="${ppt.get(2).pic}"
+                           style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" id="pre-image3"
+                  >
+                <label class="layui-form-label">图片预览</label>
+                <img id="uploaded-image3" width="150px"  th:src="@{${ppt.get(2).pic}}">
+            </div>
+            <div   class="lableppt" >幻灯片四</div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">名字</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="" required lay-verify="required" placeholder="请输入名称" th:value="${ppt.get(3).name}"
+                           class="layui-input required">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="url" value=""  required lay-verify="required" placeholder="链接" class="layui-input" th:value="${ppt.get(3).url}">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status4" value="1" title="显示" th:checked="${ppt.get(3).status==1}" >显示
+                    <input type="radio" name="status4" value="0" title="隐藏" th:checked="${ppt.get(3).status==0}" >隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">图片</label>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn" id="pic4">
+                        <i class="layui-icon">&#xe67c;</i>上传图片
+                    </button>
+                    <input type="text" name="image4" class="layui-input  image"  th:value="${ppt.get(3).pic}"
+                           style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required">
+                </div>
+            </div>
+            <div class="layui-form-item" id="pre-image4"
+                >
+                <label class="layui-form-label">图片预览</label>
+                <img id="uploaded-image4" width="150px"  th:src="@{${ppt.get(3).pic}}" >
+            </div>
+
+
+            <div class="btable-paged">
+                <div class="layui-main">
+                    <div class="formbtngroup"  >
+                        <button class="layui-btn layui-btn-small" style="margin-left: 900px" lay-submit="" lay-filter="formadd">确定</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['layer', 'form', 'element', 'upload'], function () {
+        var form = layui.form
+            , $ = layui.jquery
+            , upload = layui.upload
+        ;
+        form.on('submit', function (data) {
+
+            var ppt=new Array();
+            for(var i=0;i<$('.lableppt').length;i++){
+                var name=$('input[name=name]').eq(i).val();
+                var pic=$('.image').eq(i).val();
+                var url=$('input[name=url]').eq(i).val();
+                var status=$('input[name=status'+(i+1)+']:checked').val();
+                ppt.push({'name':name,'pic':pic,'url':url,'status':status})
+            }
+            console.log(ppt);
+            // return false;
+                var formdata  = JSON.stringify(ppt)
+                ajaxform(formdata,"/updatehomeppt",$,function (res) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    location.reload();
+                })
+        })
+        upload.render({
+            url: '/uploadfile'
+            , elem: '#pic1'
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                $('input[name=image1]').val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                $("#pre-image1").css('display', 'block');
+                $('#uploaded-image1').attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+        upload.render({
+            url: '/uploadfile'
+            , elem: '#pic2'
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                $('input[name=image2]').val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                $("#pre-image2").css('display', 'block');
+                $('#uploaded-image2').attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+        upload.render({
+            url: '/uploadfile'
+            , elem: '#pic3'
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                $('input[name=image3]').val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                $("#pre-image3").css('display', 'block');
+                $('#uploaded-image3').attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+        upload.render({
+            url: '/uploadfile'
+            , elem: '#pic4'
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                $('input[name=image4]').val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                $("#pre-image4").css('display', 'block');
+                $('#uploaded-image4').attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+    });
+</script>
+</body>
+</html>

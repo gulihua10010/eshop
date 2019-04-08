@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-w" style="margin-bottom:0px">
+    <div class="wst-filters">
+        <div class="item" style="border:1px solid transparent;border-left:2px solid #df2003;padding-left: 8px">
+            <a class="link" href="/index">首页</a>
+            <i class="arrow"></i>
+        </div>
+        <div class="wst-lfloat" th:if="${cat3!=null}">
+            <div class="item dorpdown">
+                <div class="drop-down">
+                    <a class="link" href=" " th:text="${cat3.name}"> </a>
+                </div>
+                <div class="dorp-down-layer">
+                    <div class="cat2" th:each="cat:${cat3.itemCats}"><a href=" "
+                                                                        th:text="${cat.name}"></a></div>
+
+                </div>
+            </div>
+            <i class="arrow"></i>
+        </div>
+        <div class="wst-lfloat" th:if="${cat2!=null}">
+            <div class="item dorpdown">
+                <div class="drop-down">
+                    <a class="link" href="http://localhost/ws/category-189.html" th:text="${cat2.name}"> </a>
+                </div>
+                <div class="dorp-down-layer">
+                    <div class="cat2" th:each="cat:${cat2.itemCats}"><a href="http://localhost/ws/category-190.html"
+                                                                        th:text="${cat.name}"></a></div>
+
+                </div>
+            </div>
+            <i class="arrow"></i>
+        </div>
+        <div class="wst-lfloat" th:if="${cat1!=null}">
+            <div class="item dorpdown">
+                <div class="drop-down">
+                    <a class="link" href="http://localhost/ws/category-199.html" th:text="${cat1.name}"></a>
+                </div>
+                <div class="dorp-down-layer">
+                    <div class="cat2" th:each="cat:${cat1.itemCats}"><a href="http://localhost/ws/category-190.html"
+                                                                        th:text="${cat.name}"></a></div>
+
+                </div>
+            </div>
+            <i class="arrow"></i>
+        </div>
+        <div class="wst-clear"></div>
+    </div>
+</div>
+
+
+<div class="wst-w">
+    <div class="wst-container" style="width: 1198px;border:1px solid #e6e6e6;">
+        <div class="goods-img-box">
+            <div class="goods-img spec-preview" id="preview">
+                <img th:title="${item.title}" th:alt="${item.title}" th:src="${item.image}" class="cloudzoom"
+                     height="350" width="350">
+            </div>
+            <div class="goods-pics">
+                <a class="prev">&lt;</a>
+                <a class="next">&gt;</a>
+                <div class="items">
+                    <ul>
+                        <li th:each="pic,s:${item.itemImages}" th:attr="data-id=${s.index}" class="imgss"><img
+                                th:title="${item.title}" th:alt="${item.title}" th:src="${pic.images}"
+                                class="cloudzoom-gallery" width="60" height="60"></li>
+                    </ul>
+                </div>
+                <div class="wst-clear"></div>
+            </div>
+        </div>
+        <div class="intro">
+            <div class="intro-name">
+                <h2 th:text="${item.title}">title</h2>
+            </div>
+            <div class="summary">
+                <div class="infol">
+                    <div class="item">
+                        <div class="dt">市 场 价&nbsp;</div>
+                        <div class="dd market-price" id="j-market-price" th:text="'￥'+${item.price/100.0+10}"></div>
+                    </div>
+                    <div class="item">
+                        <div class="dt">价&nbsp;&nbsp;格&nbsp;</div>
+                        <div class="dd price">￥<span id="j-shop-price" th:text="${item.price/100.0}"></span></div>
+                    </div>
+                    <div class="goods-intro-bg">
+                        <div class="item">
+                            <ul class="ginfo_b">
+                                <li>
+                                    <div class="dt">销&nbsp;&nbsp;量&nbsp;</div>
+                                    <span class="appraise-num" th:text="${item.monSales}">0</span>
+                                </li>
+                                <li>
+                                    <div class="dt">累计评价&nbsp;</div>
+                                    <span class="appraise-num">0</span>
+                                </li>
+
+                                <div class="wst-clear"></div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="wst-clear"></div>
+            </div>
+
+
+            <div class="spec">
+            </div>
+            <div class="buy">
+                <div class="item">
+                    <div class="dt">数&nbsp;&nbsp;量&nbsp;</div>
+                    <div class='dd'>
+                        <a href='#none' class='buy-btn' id='buy-reduce' style='color:#ccc;'
+                           onclick='javascript:WST.changeIptNum(-1,"#buyNum","#buy-reduce,#buy-add")'>-</a>
+                        <input type='text' id='buyNum' class='buy-num' value='1' data-min='1' autocomplete="off"
+                               onkeyup='WST.changeIptNum(0,"#buyNum","#buy-reduce,#buy-add")'
+                               onkeypress="return WST.isNumberKey(event);" maxlength="6"/>
+                        <a href='#none' class='buy-btn' id='buy-add'
+                           onclick='javascript:WST.changeIptNum(1,"#buyNum","#buy-reduce,#buy-add")'>+</a>
+                        &nbsp; &nbsp;（库存：<span id='goods-stock' th:text="${item.num}">0</span>）
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="dt">服&nbsp;&nbsp;务&nbsp;</div>
+                    <div class="dd"> 服务承诺 正品保证 极速退款 赠运费险 七天无理由退换</div>
+                </div>
+                <div class="item" style="padding-left:95px;margin-top:20px;">
+                    <a id='addBtn' class='addBtn' >加入购物车</a>
+                    <a id='buyBtn'   class='buyBtn'>立即购买</a>
+
+                    <div class="wst-clear"></div>
+                </div>
+
+                <div class="wst-relative" style="margin-top: 20px;margin-left: 10px;">
+
+                    <div style="clear: both;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="seeing">
+            <div class="head">看了又看</div>
+            <div class="body">
+                <a  th:href="'/item/detail?id='+${s.id}" th:each="s:${see}">
+                    <div class="see-item">
+                        <div class="see-img">
+                            <img th:title="${s.title}"
+                                 th:alt="${s.title}"
+                                 th:src="${s.image}"
+                                 th:attr="data-original=${s.image}" style="display: inline;" class="goodsImg">
+                            <span class="see-price">[['￥'+${s.price/100.0}]]</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="wst-clear"></div>
+    </div>
+</div>
+
+<div class="wst-w">
+    <div class="wst-container">
+        <div class="wst-side">
+
+            <div class="goods-side">
+                <div class="guess-like">
+                    <div class="title">猜你喜欢</div>
+                    <div class="item" th:each="s:${like}">
+                        <div class="img"><a target="_blank" th:href="'/item/detail?id='+${s.id}" ><img
+                                th:title="${s.title}"
+                                th:alt="${s.title}"
+                                th:src="${s.image}"
+                                th:attr="data-original=${s.image}"
+                                class="goodsImg"></a>
+                        </div>
+                        <div class="p-name"><a class="wst-hide wst-redlink" th:text="${s.title}"></a>
+                        </div>
+                        <div class="p-price">￥19.90<span class="v-price">[['￥'+${s.price/100.0}]]</span></div>
+                    </div>
+
+                </div>
+                <div class="hot-goods">
+                    <div class="title">热销商品</div>
+                    <div class="item" th:each="h:${hot}">
+                        <div class="img"><a target="_blank" th:href="'/item/detail?id='+${h.id}" ><img
+                                th:title="${h.title}"
+                                th:alt="${h.title}"
+                                th:src="${h.image}"
+                                th:attr="data-original=${h.image}"
+                                class="goodsImg"></a>
+                        </div>
+                        <div class="p-name"><a class="wst-hide wst-redlink" th:text="${h.title}"></a>
+                        </div>
+                        <div class="p-price">￥19.90<span class="v-price">[['￥'+${h.price/100.0}]]</span></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="goods-desc">
+            <div id="tab" class="wst-tab-box">
+                <ul id="goodsTabs" class="wst-tab-nav" style="position: static;">
+                    <li class="on" style="width: 45%;margin-left:20px; ">商品介绍</li>
+                    <li style=" width: 45%;  ">商品评价<span class="appraise-num">（0）</span></li>
+                </ul>
+                <div class="wst-tab-content" style="width:99%;margin-bottom: 10px;min-height:1312px;">
+                    <div class="wst-tab-item goods-desc-box" style="position: relative;" th:utext="${item.itemDesc}">
+
+                    </div>
+                    <input type="hidden" id="filtertype" value="all" style="display: none;">
+
+                    <div class="wst-tab-item" style="position: relative;display:none;">
+                        <div class="appraise-head">
+                            <div class="app-head-l">
+                                <div class="app-head-lbox">
+                                    <strong class="text">好评度</strong>
+                                    <div class="percent">
+                                        <i class="best_percent">0</i><span>%</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="app-head-r">
+                                <div class="app-head-rbox">
+                                    <div class="app-hr-item">
+                                        <div class="app-hr-text">好评(<i class="best_percent">0</i>%)</div>
+                                        <div class="percentbox">
+                                            <div class="percentbg" id="best_percentbg" style="width:0%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-hr-item">
+                                        <div class="app-hr-text">中评(<i class="good_percent">11</i>%)</div>
+                                        <div class="percentbox">
+                                            <div class="percentbg" id="good_percentbg" style="width:11%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="app-hr-item">
+                                        <div class="app-hr-text">差评(<i class="bad_percent">0</i>%)</div>
+                                        <div class="percentbox">
+                                            <div class="percentbg" id="bad_percentbg" style="width:0%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div id="ga-box">
+
+                        </div>
+                        <div id="pager" style="text-align:center;"></div>
+                    </div>
+
+                    <div class="wst-tab-item" style="position: relative;display:none;">
+                        <div class="appr-filter">
+                            <input type="hidden" id="consultType" value="0">
+                            <ul class="appr-filterbox">
+                                <li><a class="gc-filter curr" href="javascript:void(0)"
+                                       onclick="filterConsult(this,&#39;0&#39;)">全部</a></li>
+                                <li><a class="gc-filter" href="javascript:void(0)"
+                                       onclick="filterConsult(this,&#39;1&#39;)">商品咨询</a></li>
+                                <li><a class="gc-filter" href="javascript:void(0)"
+                                       onclick="filterConsult(this,&#39;2&#39;)">库存配送</a></li>
+                                <li><a class="gc-filter" href="javascript:void(0)"
+                                       onclick="filterConsult(this,&#39;3&#39;)">支付</a></li>
+                                <li><a class="gc-filter" href="javascript:void(0)"
+                                       onclick="filterConsult(this,&#39;4&#39;)">发票保修</a></li>
+                            </ul>
+                        </div>
+                        <div class="consult-searchbox">
+                            <p class="search-tips">温馨提示：因每位咨询者购买情况、咨询时间等不同，以下回复对咨询者3天内有效，其他网友仅供参考。</p>
+                            <div class="searchout">
+                                <input type="text" class="search-text" id="consultKey" placeholder="请输入关键词">
+                                <button class="csbtn" onclick="queryConsult(0)">搜索</button>
+                            </div>
+                        </div>
+                        <div class="wst-clear"></div>
+                        <div class="consult-listbox" id="consultBox">
+
+                        </div>
+                        <script id="gclist" type="text/html">
+                            <ul class='consult-list'>
+                                {{# for(var i=0;i
+                                <d.length
+                                ;++i){ }}
+                                <li>
+                                    <ul class="consult-item">
+
+                                        <li class='ask'>
+                                            <p class="wst-lfloat">咨询内容：</p>
+                                            <div class="wst-lfloat cs-content">{{d[i]['consultContent']}}&nbsp;<span
+                                                    class="c999">({{(WST.blank(d[i]['loginName'])=='')?'游客':d[i]['loginName']}})</span>
+                                            </div>
+                                            <div class="wst-rfloat">{{d[i]['createTime']}}</div>
+                                            <div class="wst-clear"></div>
+                                        </li>
+
+                                        {{# if(d[i]['reply']!=''){ }}
+                                        <li class='answer'>
+                                            <p class="wst-lfloat">商家回复：</p>
+                                            <div class="wst-lfloat cs-content">
+                                                {{d[i]['reply']}}
+                                            </div>
+                                            <div class="wst-rfloat">{{d[i]['replyTime']}}</div>
+                                            <div class="wst-clear"></div>
+                                        </li>
+                                        {{# } }}
+
+                                    </ul>
+                                </li>
+                                {{# } }}
+                            </ul>
+                        </script>
+                        <div id="consult-pager" style="text-align:right;margin-top:10px;">
+                            商品咨询分页占位
+                        </div>
+
+                        <div class="consult-publish">
+                            <h5>发表咨询</h5>
+                            <div class="explain">
+                                声明：您可在购买前对产品包装、颜色、运输、库存等方面进行咨询，我们有专人进行回复！因厂家随时会更改一些产品的包装、颜色、产地等参数，所以该回复仅在当时对提问者有效，其他网友仅供参考！咨询回复的工作时间为：周一至周五，9:00至18:00，请耐心等待工作人员回复。
+                            </div>
+                            <ul>
+                                <li>
+                                    <span class="fbold">咨询类型：</span>
+                                    <label>
+                                        <input type="radio" name="pointType" value="1">商品咨询 </label>
+                                    <label>
+                                        <input type="radio" name="pointType" value="2">库存配送 </label>
+                                    <label>
+                                        <input type="radio" name="pointType" value="3">支付 </label>
+                                    <label>
+                                        <input type="radio" name="pointType" value="4">发票保修 </label>
+
+                                </li>
+                                <li>
+                                    <span class="fbold">咨询内容：</span>
+                                    <textarea id="consultContent" placeholder="3~200个字符长度" maxlength="200"></textarea>
+                                </li>
+                                <li>
+                                    <button id="consultCommit" onclick="consultCommit()">提交</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="wst-clear"></div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+<script async="async" type="text/javascript" src="/js/cloudzoom.js"></script>
+
+<script async="async" type="text/javascript" src="/js/goods.js"></script>
+
+<script>
+    goodsInfo = {
+        id: [[${item.id}]],
+        isSpec: 0,
+        goodsStock: [[${item.monSales}]],
+        marketPrice: "[[${item.price/100.0+50}]]",
+        goodsPrice: "[[${item.price/100.0}]]"
+    }
+    $('.addBtn').click(function () {
+        console.log(111111)
+        addCart(0,"#buyNum",'[[${ssourl}]]')
+    })
+    $('#buyBtn').click(function () {
+        addCart(1,"#buyNum",'[[${ssourl}]]')
+    })
+    $('#logout').click(function () {
+        WST.logout("[[${ssourl}]]"+'/loginout',"[[${homeurl}]]"+"/index")
+    })
+
+</script>
+</body>
+</html>

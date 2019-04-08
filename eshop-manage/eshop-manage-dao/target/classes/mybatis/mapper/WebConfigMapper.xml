@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.WebConfigMapper" >
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.WebConfig" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="key" property="key" jdbcType="VARCHAR" />
+        <result column="value" property="value" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <select id="geWebConfiglist"   resultMap="BaseResultMap">
+        SELECT  *
+        FROM webconfig
+
+    </select>
+    <select id="geWebConfiglistAndOn"   resultMap="BaseResultMap">
+        SELECT  *
+        FROM webconfig
+        WHERE status=1
+
+    </select>
+    <select id="getWebConfigById"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+        SELECT  *
+        FROM webconfig
+        WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <delete id="delete" parameterType="cn.jianwoo.eshop.manage.entity.WebConfig">
+        delete  from   webconfig   where id=#{id}
+    </delete>
+    <delete id="deleteAll" >
+        delete  from   webconfig
+    </delete>
+  <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.WebConfig" keyProperty="id" useGeneratedKeys="true">
+--       `id` `parent_id` `name` `status` `sort_order` `is_parent` `created` `updated`
+
+      insert  into webconfig
+      <trim prefix="(" suffixOverrides="," suffix=")">
+          <if test="id!=null">
+              `id`,
+          </if>
+          <if test="key!=null">
+              `key`,
+          </if>
+          <if test="status!=null">
+              `status`,
+          </if>
+          <if test="value!=null">
+              `value`,
+          </if>
+      </trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id!=null">
+        #{id},
+    </if>
+    <if test="key!=null">
+        #{key},
+    </if>
+    <if test="status!=null">
+        #{status},
+    </if>
+    <if test="value!=null">
+        #{value},
+    </if>
+</trim>
+  </insert>
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.WebConfig">
+    update   webconfig
+    <set>
+        <if test="key!=null">
+            `key`= #{key},
+        </if>
+        <if test="status!=null">
+            `status`=  #{status},
+        </if>
+        <if test="value!=null">
+            `value`=  #{value},
+        </if>
+
+    </set>
+where id=  #{id}
+
+    </update>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <!--注册中心zookeeper配置信息-->
+    <!--<dubbo:registry address="${dubbo.registry.address}" />-->
+
+    <!--支持两种协议的调用：rpc-dubbo协议；http协议-rest api-url调用-->
+    <!--<dubbo:protocol name="rest" threads="500" contextpath="v1" server="tomcat" accepts="500"/>-->
+    <!--<dubbo:protocol name="dubbo" />-->
+
+
+    <!--引入服务提供方提供的dubbo服务-url="dubbo://127.0.0.1:20903" -->
+    <dubbo:reference interface="cn.jianwoo.eshop.item.api.ItemCatService" id="itemCatService"
+                     url="dubbo://172.27.43.97:20881" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+    <dubbo:reference interface="cn.jianwoo.eshop.item.api.ItemService" id="itemService"
+                     url="dubbo://172.27.43.97:20881" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+
+
+    <!--webConfigs-->
+    <dubbo:reference interface="cn.jianwoo.eshop.webconfig.api.HomepptService" id="homepptService"
+                     url="dubbo://172.27.43.97:20883" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+    <dubbo:reference interface="cn.jianwoo.eshop.webconfig.api.MenuService" id="menuService"
+                     url="dubbo://172.27.43.97:20883" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+    <dubbo:reference interface="cn.jianwoo.eshop.webconfig.api.WebConfigService" id="webConfigService"
+                     url="dubbo://172.27.43.97:20883" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+
+
+    <!--cart-->
+    <dubbo:reference interface="cn.jianwoo.eshop.cart.api.CartService" id="cartService"
+                     url="dubbo://172.27.43.97:20886" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+<!--order-->
+
+    <dubbo:reference interface="cn.jianwoo.eshop.api.AddressService" id="addressService"
+                     url="dubbo://172.27.43.97:20888" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+    <dubbo:reference interface="cn.jianwoo.eshop.api.OrderItemService" id="orderItemService"
+                     url="dubbo://172.27.43.97:20888" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+    <dubbo:reference interface="cn.jianwoo.eshop.api.OrderService" id="orderService"
+                     url="dubbo://172.27.43.97:20888" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+
+    <!--user-->
+    <dubbo:reference interface="cn.jianwoo.eshop.user.api.UserService" id="userService"
+                     url="dubbo://172.27.43.97:20885" protocol="dubbo" version="1.0.0" timeout="20000">
+    </dubbo:reference>
+
+    <!--search-->
+    <dubbo:reference interface="cn.jianwoo.eshop.api.SearchItemService" id="searchItemService"
+                     url="dubbo://172.27.43.97:20876" protocol="dubbo" version="1.0.0" timeout="1111000">
+    </dubbo:reference>
+
+    <dubbo:reference interface="cn.jianwoo.eshop.api.SearchService" id="searchService"
+                     url="dubbo://172.27.43.97:20876" protocol="dubbo" version="1.0.0" timeout="1111000">
+    </dubbo:reference>
+</beans>

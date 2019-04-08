@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+<style>
+    .summary span,.img a{
+        background-color: transparent;
+        color: black;
+
+    }
+
+</style>
+<div class="wst-main">
+    <div th:replace="left::menu"></div>
+
+    <div class="wst-content">
+
+        <div class="wst-user-head"><span>订单详情</span>
+        <div class="wst-user-content">
+            <!-- 订单信息 -->
+            <div class="order-box">
+                <div class="box-head">订单信息</div>
+                <table class="wst-form">
+                    <tbody><tr>
+                        <th width="100">订单编号：</th>
+                        <td th:text="${order.orderId}"> </td>
+                    </tr>
+                    <tr>
+                        <th>支付方式：</th>
+                        <td th:text="${order.paymentType==1?'在线支付':'货到付款'}"> </td>
+                    </tr>
+
+                    <tr>
+                        <th valign="top">买家留言：</th>
+                        <td style="line-height: 20px" th:text="${order.buyerMessage}"></td>
+                    </tr>
+                    </tbody></table>
+            </div>
+
+
+            <!-- 收货人信息 -->
+            <div class="order-box">
+                <div class="box-head">收货人信息</div>
+                <table class="wst-form" th:if="${address!=null}">
+                    <tbody><tr>
+                        <th width="100">收货人：</th>
+                        <td th:text="${address==null?'':address.receiverName}"> </td>
+                    </tr>
+                    <tr>
+                        <th>收货地址：</th>
+                        <td th:text="${address.receiverProvinces}+${address.receiverCity}+${address.receiverDistrict}+' '+${address.receiverAddress}"> </td>
+                    </tr>
+                    <tr>
+                        <th>联系方式：</th>
+                        <td th:text="${address.receiverPhone}"></td>
+                    </tr>
+                    </tbody></table>
+            </div>
+            <!-- 商品信息 -->
+            <div class="order-box">
+                <div class="box-head">商品清单</div>
+                <div class="goods-head">
+                    <div class="goods">商品</div>
+                    <div class="price">单价</div>
+                    <div class="num">数量</div>
+                    <div class="t-price">总价</div>
+                </div>
+                <div class="goods-item">
+                    <div class="shop">
+                        自营超市
+                    </div>
+                    <div class="goods-list">
+                        <div class="item j-g117"    th:each="item,s:${order.orderItems}">
+                            <div class="goods" style="height: 100px;padding: 10px;">
+                                <div class="img" style=" margin-left: 40px;" >
+                                    <a href=""  style="  margin-top: -20px;"  th:href="${itemurl}+'/item/detail?id='+${item.itemId}" target="_blank">
+                                        <img  th:src="${item.picPath}" width="90" height="90"  th:title="${item.title}"   >
+                                    </a>
+                                </div>
+                                <div class="name"> [[${item.title}]]</div>
+                                <div class="spec"></div>
+                            </div>
+                            <div class="price">¥[[${item.price/100.00}]]</div>
+                            <div class="num">[[${item.num}]]</div>
+                            <div class="t-price">¥[[${item.price/100.00*item.num}]]</div>
+                            <div class="wst-clear"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="goods-footer">
+                    <div class="goods-summary" style="text-align:right">
+                        <div class="summary">商品总金额：¥ [[${order.payment}]] </div>
+                        <div class="summary">运费：¥ 0.00 </div>
+                        <div class="summary line">应付总金额：¥ [[${order.payment}]] </div>
+                        <div class="summary">实付总金额：¥ [[${order.payment}]] </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div style="clear:both;"></div>
+</div>
+<br>
+</body>
+</html>

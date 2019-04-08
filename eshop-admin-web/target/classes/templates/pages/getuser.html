@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查看用户</title>
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <script src="/static/layuiadmin/layui/layui.all.js"></script>
+    <style>
+        .layui-view {
+          position: relative;
+            top:10px
+        }
+    </style>
+</head>
+<body>
+
+<!--主体-->
+<div style="margin-bottom:36px;">
+
+    <div class="layui-tab-brief">
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form form-container" id="layui-form"
+                >
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户名:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.username}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户昵称:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.nickName}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">头像:</label>
+                        <img id="uploaded-image"  width="300" th:src="@{${user.avatar}}"  >
+                    </div>
+
+
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">用户手机号:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.phone}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">性别:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.sex==0?'未知':(user.sex==1?'男':'女')}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">状态:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.status==-1?'禁用':'正常'}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">邮箱:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${user.email}"></span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">注册时间:</label>
+                        <div class="layui-input-inline">
+                            <span class="layui-view" th:text="${#dates.format(user.created,'yyyy-MM-dd HH:mm')}"></span>
+                        </div>
+                    </div>
+
+
+
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

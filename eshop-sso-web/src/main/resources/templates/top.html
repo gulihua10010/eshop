@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="wst-login-banner-regist" th:fragment="top">
+    <div class="wst-icon-banner">
+        <a   th:href="${homeurl}+'/index'" th:title="${webconfig.get('name')}">>
+            <div class="img-banner">
+                <img th:src="${webconfig.get('logo')}" >
+            </div>
+        </a>
+        <div class="wst-login-action">
+            <ul class="wst-icon" style="width: 300px;margin-top: 20px;">
+                <li class="wst-img-icon"></li>
+                <li class="wst-remind" style="color:#333;">您好!欢迎来到[[${webconfig.get('name')}]]！<a href="/login"
+                                                                          onclick="WST.currentUrl();"
+                                                                          style="color:red;">&nbsp;&nbsp;请登录</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

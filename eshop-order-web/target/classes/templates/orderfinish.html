@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+
+<div class="wst-container">
+    <div id="stepflex" class="stepflex">
+        <dl class="first doing">
+            <dt class="s-num">1</dt>
+            <dd class="s-text">我的购物车</dd>
+            <dd></dd>
+        </dl>
+        <dl class="normal  doing">
+            <dt class="s-num">2</dt>
+            <dd class="s-text">填写核对订单信息</dd>
+        </dl>
+        <dl class="third  doing">
+            <dt class="s-num">3</dt>
+            <dd class="s-text">支付</dd>
+        </dl>
+        <dl class="last doing">
+            <dt class="s-num">4</dt>
+            <dd class="s-text">成功提交订单</dd>
+        </dl>
+    </div>
+    <div class="wst-clear"></div>
+    <div class="success-box">
+        <div class="imgs"><img class="wst-lfloat" src="/img/icon_success.png"><span>订单提交成功!</span></div>
+        <div class="info">
+            订单号：                   <a href="/orderdetails/" th:href="${userurl}+'/order/detail?oid='+${orderid}" target="_blank"  >[[${orderid}]]</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            应付金额：<span>¥[[${price}]]</span>
+        </div>
+        <div class="go">
+            <a href=" " th:href="${homeurl}+'/index'" class="wst-order-success wst-cart-reda">继续购物</a>
+        </div>
+    </div>
+</div>
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+
+
+<script async="async" type="text/javascript" src="/js/carts.js"></script>
+
+
+
+
+    </body>
+</html>

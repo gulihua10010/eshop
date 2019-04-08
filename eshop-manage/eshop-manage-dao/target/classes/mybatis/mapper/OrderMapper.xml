@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.OrderMapper">
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.Order">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="payment" property="payment" jdbcType="DOUBLE"/>
+        <result column="payment_type" property="paymentType" jdbcType="INTEGER"/>
+        <result column="post_fee" property="postFee" jdbcType="DOUBLE"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
+        <result column="consign_time" property="consignTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="close_time" property="closeTime" jdbcType="TIMESTAMP"/>
+        <result column="shopping_name" property="shoppingName" jdbcType="VARCHAR"/>
+        <result column="shopping_code" property="shoppingCode" jdbcType="VARCHAR"/>
+        <result column="buyer_message" property="buyerMessage" jdbcType="VARCHAR"/>
+        <result column="address_id" property="addressId" jdbcType="VARCHAR"/>
+        <result column="buyer_nick" property="buyerNick" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="buyer_rate" property="buyerRate" jdbcType="INTEGER"/>
+        <collection property="orderItems" ofType="cn.jianwoo.eshop.manage.entity.OrderItem">
+            <id column="orderitemid" property="id" jdbcType="BIGINT"/>
+            <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+            <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+            <result column="num" property="num" jdbcType="INTEGER"/>
+            <result column="title" property="title" jdbcType="VARCHAR"/>
+            <result column="price" property="price" jdbcType="BIGINT"/>
+            <result column="total_fee" property="totalFee" jdbcType="BIGINT"/>
+            <result column="pic_path" property="picPath" jdbcType="VARCHAR"/>
+
+        </collection>
+    </resultMap>
+
+    <resultMap id="BaseResultMapUser" type="cn.jianwoo.eshop.manage.entity.Order">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="payment" property="payment" jdbcType="DOUBLE"/>
+        <result column="payment_type" property="paymentType" jdbcType="INTEGER"/>
+        <result column="post_fee" property="postFee" jdbcType="DOUBLE"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
+        <result column="consign_time" property="consignTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="close_time" property="closeTime" jdbcType="TIMESTAMP"/>
+        <result column="shopping_name" property="shoppingName" jdbcType="VARCHAR"/>
+        <result column="shopping_code" property="shoppingCode" jdbcType="VARCHAR"/>
+        <result column="buyer_message" property="buyerMessage" jdbcType="VARCHAR"/>
+        <result column="address_id" property="addressId" jdbcType="VARCHAR"/>
+        <result column="buyer_nick" property="buyerNick" jdbcType="VARCHAR"/>
+        <result column="token" property="token" jdbcType="VARCHAR"/>
+        <result column="buyer_rate" property="buyerRate" jdbcType="INTEGER"/>
+      <association property="user"  javaType="cn.jianwoo.eshop.manage.entity.User">
+
+          <id column="uid" property="id" jdbcType="BIGINT"/>
+          <result column="username" property="username" jdbcType="VARCHAR"/>
+          <result column="nick_name" property="nickName" jdbcType="VARCHAR"/>
+          <result column="phone" property="phone" jdbcType="VARCHAR"/>
+          <result column="type" property="type" jdbcType="INTEGER"/>
+      </association>
+    </resultMap>
+    <!--`order_id`  `payment` `payment_type``post_fee` `status` `uid` `create_time` `update_time` `payment_time`
+    `consign_time` `end_time` `close_time` `address_id` `shopping_name` `shopping_code` `user_id` `buyer_message` `buyer_nick` `buyer_rate`/-->
+<select id="getOrderbyId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select  * from  `order`  o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.id=#{id}
+
+</select>
+    <select id="getcount" resultType="java.lang.Integer">
+        select count(*)
+         from `order`
+    </select>
+
+    <select id="getcountbyfa" resultType="java.lang.Integer">
+        select count(*)
+         from `order`   where  status=3
+    </select>
+    <select id="getOrderWithUser"  resultMap="BaseResultMapUser">
+    select  * from  `order`   o left join   `user`  u on u.id =o.uid
+
+</select>
+
+    <select id="getOrderWithUseWithoid"   parameterType="java.lang.String" resultMap="BaseResultMapUser">
+    select  * from  `order`   o left join   `user`  u on u.id =o.uid
+where  order_id=#{oid}
+</select>
+    <select id="getOrderWithUserByStatus" parameterType="java.lang.Integer" resultMap="BaseResultMapUser">
+    select  * from  `order`   o left join   `user`  u on u.id =o.uid
+    where  o.status=#{status}
+
+</select>
+    <select id="getOrderbyoId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  * from  `order`   o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.order_id=#{oid}
+
+</select>
+
+    <select id="getOrderByuidandstatus" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select  * from  `order`  o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.uid=#{uid} and o.status =#{status}
+
+</select>
+    <select id="getOrderListbyMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select  * from  `order`  o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.uid=#{uid} and o.status =#{status} and o.order_id=#{oid}
+
+</select>
+
+<select id="getOrderByuid" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select  * from  `order`  o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.uid=#{uid}  order  by  create_time desc
+
+</select>
+    <select id="getOrderByToken" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select  * from  `order`  o left join    order_item  oi on oi.order_id =o.order_id
+    where  o.token=#{token}
+
+</select>
+    <delete id="delete"  parameterType="cn.jianwoo.eshop.manage.entity.Order">
+        delete  from  `order` where id=#{id}
+    </delete>
+
+
+    <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.Order">
+        insert into `order`
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                id,
+            </if>
+        <if test="orderId!=null">
+            order_id,
+        </if>
+            <if test="payment!=null">
+                payment,
+            </if>
+            <if test="paymentType!=null">
+                payment_type,
+            </if>
+            <if test="postFee!=null">
+                post_fee,
+            </if>
+            <if test="status!=null">
+                status,
+            </if>
+            <if test="uid!=null">
+                uid,
+            </if>
+            <if test="createTime!=null">
+                create_time,
+            </if>
+            <if test="updateTime!=null">
+                update_time,
+            </if>
+            <if test="paymentTime!=null">
+                payment_time,
+            </if>
+            <if test="consignTime!=null">
+                consign_time,
+            </if>
+            <if test="endTime!=null">
+                end_time,
+            </if>
+            <if test="closeTime!=null">
+                close_time,
+            </if>
+            <if test="addressId!=null">
+                address_id,
+            </if>
+            <if test="shoppingName!=null">
+                shopping_name,
+            </if>
+            <if test="shoppingCode!=null">
+                shopping_code,
+            </if>
+
+            <if test="buyerMessage!=null">
+                buyer_message,
+            </if>
+            <if test="buyerNick!=null">
+                buyer_nick,
+            </if>
+            <if test="buyerRate!=null">
+                buyer_rate,
+            </if>
+            <if test="token!=null">
+                token,
+            </if>
+
+
+        </trim>
+
+        <trim prefix="values (" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="orderId!=null">
+                #{orderId},
+            </if>
+            <if test="payment!=null">
+                #{payment},
+            </if>
+            <if test="paymentType!=null">
+                #{paymentType},
+            </if>
+            <if test="postFee!=null">
+                #{postFee},
+            </if>
+            <if test="status!=null">
+                #{status},
+            </if>
+            <if test="uid!=null">
+                #{uid},
+            </if>
+            <if test="createTime!=null">
+                #{createTime},
+            </if>
+            <if test="updateTime!=null">
+                #{updateTime},
+            </if>
+            <if test="paymentTime!=null">
+                #{paymentTime},
+            </if>
+            <if test="consignTime!=null">
+                #{consignTime},
+            </if>
+            <if test="endTime!=null">
+                #{endTime},
+            </if>
+            <if test="closeTime!=null">
+                #{closeTime},
+            </if>
+            <if test="addressId!=null">
+                #{addressId},
+            </if>
+            <if test="shoppingName!=null">
+                #{shoppingName},
+            </if>
+            <if test="shoppingCode!=null">
+                #{shoppingCode},
+            </if>
+
+            <if test="buyerMessage!=null">
+                #{buyerMessage},
+            </if>
+            <if test="buyerNick!=null">
+                #{buyerNick},
+            </if>
+            <if test="buyerRate!=null">
+                #{buyerRate},
+            </if>
+            <if test="token!=null">
+                #{token},
+            </if>
+
+        </trim>
+
+   </insert>
+
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.Order">
+
+        update `order`
+        <set>
+            <if test="orderId!=null">
+                order_id=#{orderId},
+            </if>
+            <if test="payment!=null">
+                payment=  #{payment},
+            </if>
+            <if test="paymentType!=null">
+                payment_type= #{paymentType},
+            </if>
+            <if test="postFee!=null">
+                post_fee= #{postFee},
+            </if>
+            <if test="status!=null">
+                status= #{status},
+            </if>
+            <if test="uid!=null">
+                uid=  #{uid},
+            </if>
+            <if test="createTime!=null">
+                create_time= #{createTime},
+            </if>
+            <if test="updateTime!=null">
+                update_time=  #{updateTime},
+            </if>
+            <if test="paymentTime!=null">
+                payment_time=  #{paymentTime},
+            </if>
+            <if test="consignTime!=null">
+                consign_time=   #{consignTime},
+            </if>
+            <if test="endTime!=null">
+                end_time= #{endTime},
+            </if>
+            <if test="closeTime!=null">
+                close_time=  #{closeTime},
+            </if>
+            <if test="addressId!=null">
+                address_id=     #{addressId},
+            </if>
+            <if test="shoppingName!=null">
+                shopping_name=    #{shoppingName},
+            </if>
+            <if test="shoppingCode!=null">
+                shopping_code=  #{shoppingCode},
+            </if>
+
+            <if test="buyerMessage!=null">
+                buyer_message=  #{buyerMessage},
+            </if>
+            <if test="buyerNick!=null">
+                buyer_nick=   #{buyerNick},
+            </if>
+            <if test="buyerRate!=null">
+                buyer_rate=   #{buyerRate},
+            </if>
+            <if test="token!=null">
+                token=   #{token},
+            </if>
+        </set>
+        where id=    #{id}
+
+    </update>
+</mapper>

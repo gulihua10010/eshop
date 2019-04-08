@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.MenuMapper" >
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.Menu" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="url" property="url" jdbcType="VARCHAR" />
+        <result column="order" property="order" jdbcType="INTEGER" />
+        <result column="target" property="target" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+    </resultMap>
+    
+    <select id="getMenulist"   resultMap="BaseResultMap">
+        SELECT  *
+        FROM menu order by `order`
+
+    </select>
+    <select id="getMenulistAndOn"   resultMap="BaseResultMap">
+        SELECT  *
+        FROM menu
+        WHERE status=1 order by `order`
+
+    </select>
+    <select id="getMenuById"  parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+        SELECT  *
+        FROM menu
+        WHERE id = #{id, jdbcType=INTEGER}
+    </select>
+
+    <select id="count"  resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM menu
+    </select>
+    <select id="max"   resultType="java.lang.Integer">
+        SELECT max(`order`)
+        FROM menu
+    </select>
+    <delete id="delete" parameterType="cn.jianwoo.eshop.manage.entity.Menu">
+        delete  from   menu   where id=#{id}
+    </delete>
+
+  <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.Menu" keyProperty="id" useGeneratedKeys="true">
+--       `id` `parent_id` `name` `status` `sort_order` `is_parent` `created` `updated`
+
+      insert  into menu
+      <trim prefix="(" suffixOverrides="," suffix=")">
+          <if test="id!=null">
+              `id`,
+          </if>
+          <if test="name!=null">
+              `name`,
+          </if>
+          <if test="status!=null">
+              `status`,
+          </if>
+          <if test="url!=null">
+              `url`,
+          </if>
+          <if test="order!=null">
+              `order`,
+          </if>
+          <if test="target!=null">
+              `target`,
+          </if>
+      </trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id!=null">
+        #{id},
+    </if>
+    <if test="name!=null">
+        #{name},
+    </if>
+    <if test="status!=null">
+        #{status},
+    </if>
+    <if test="url!=null">
+        #{url},
+    </if>
+    <if test="order!=null">
+        #{order},
+    </if>
+    <if test="target!=null">
+        #{target},
+    </if>
+</trim>
+  </insert>
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.Menu">
+    update   menu
+    <set>
+        <if test="name!=null">
+            `name`= #{name},
+        </if>
+        <if test="status!=null">
+            `status`=  #{status},
+        </if>
+        <if test="url!=null">
+            `url`=  #{url},
+        </if>
+        <if test="order!=null">
+            `order`=  #{order},
+        </if>
+        <if test="target!=null">
+            `target`=  #{target},
+        </if>
+    </set>
+where id=  #{id}
+
+    </update>
+</mapper>

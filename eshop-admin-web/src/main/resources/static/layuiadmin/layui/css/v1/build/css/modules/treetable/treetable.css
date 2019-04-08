@@ -1,0 +1,14 @@
+.layui-treetable i.folder-close{
+    background: url(folder-closed.gif) 0 0 no-repeat;
+    padding: 0 0 0 16px;
+}
+
+.layui-treetable i.folder{
+    background: url(folder.gif) 0 0 no-repeat;
+    padding: 0 0 0 16px;
+}
+
+.layui-treetable i.leaf{
+    background: url(file.gif) 0 0 no-repeat;
+    padding: 0 0 0 16px;
+}

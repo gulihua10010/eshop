@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>菜单添加</title>
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+
+    <script src="/static/layuiadmin/layui/layui.js"></script>
+    <script src="/static/js/common.js"></script>
+</head>
+<body>
+
+<div class="layui-tab-brief">
+
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单名称</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="name" value="" required  lay-verify="required" placeholder="请输入导航名称" class="layui-input required" th:value="${menu.name}">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">链接</label>
+
+                <div> <div class="layui-input-inline">
+                    <input type="text" name="url" value="" placeholder="" class="layui-input"  th:value="${menu.url}"></div>  </div>
+
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="status" value="1" title="显示"  th:checked="${menu.status==1}">显示
+                    <input type="radio" name="status" value="0" title="隐藏" th:checked="${menu.status==0}">隐藏
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">打开方式</label>
+                <div class="layui-input-inline">
+                    <input type="radio" name="target" value="_self" title="默认" th:checked="${menu.target=='_self'}">默认
+                    <input type="radio" name="target" value="_blank" title="新窗口" th:checked="${menu.target=='_blank'}">新窗口
+                </div>
+            </div>
+            <div class="btable-paged"  style="position: absolute;left:  430px" >
+                <button  class="layui-btn layui-btn-small"  id="submit" lay-filter="formadd" th:attr="data-id=${menu.id}">更新</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    layui.use(['layer', 'form', 'element'], function () {
+        var form = layui.form
+            , jq = layui.jquery;
+        jq('#submit').click(function () {
+
+            if (jq('.required').val() == null || jq('.required').val()==='') {
+                jq('.required').css('border','red 1px solid');
+                layer.msg("请输入必填项目", {icon: 2, time: 1000}, function () {
+                    //  location.reload();
+                });
+            } else {
+                var id=jq(this).data('id');
+                var formdata  = JSON.stringify({
+                        'name':jq('input[name=name]').val(),
+                        'url':jq('input[name=url]').val(),
+                        'status':jq('input[name=status]:checked').val(),
+                        'target':jq('input[name=target]:checked').val(),
+                        'sort':jq('input[name=sort]').val(),
+
+                    })
+                ajaxform(formdata,"/updatemenu?id="+id,jq,function (res) {
+                    var index = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                    location.reload();
+                })
+            }
+        })
+
+    });
+</script>
+</body>
+</html>

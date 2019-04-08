@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div class="wst-menu" th:fragment="menu">
+    <span class="wst-menu-title">我的订单</span>
+    <ul>
+        <li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==1 ?'wst-menua':''}" onclick="getMenus('/user/nopayorder')">
+            待付款订单 <span id="mId_3"   th:if="${count1 }" class="wst-msg-tips-box" th:text="${count1}"></span>
+        </li>
+        <li class="wst-menua wst-menuas" th:class="'wst-menuas   '+${menuid==2 ?'wst-menua':''}" onclick="getMenus('/user/noshou')">
+            待收货订单 <span id="mId_5" th:if="${count2>0 }" class="wst-msg-tips-box" th:text="${count2}"></span>
+        </li>
+        <li class=" wst-menuas"  th:class="'wst-menuas   '+${menuid==3 ?'wst-menua':''}" onclick="getMenus('/user/nopjorder')">
+            待评价订单 <span id="mId_6"  th:if="${count3>0 }" class="wst-msg-tips-box" th:text="${count3}"></span>
+        </li>
+        <li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==4 ?'wst-menua':''}" onclick="getMenus('/user/complateorder')">
+            已完成订单 <span id="mId_48"  th:if="${count4>0 }" class="wst-msg-tips-box" th:text="${count4}"></span>
+        </li>
+        <li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==5 ?'wst-menua':''}" onclick="getMenus('/user/cancelorder')">
+            已取消订单<span id="mId_40"  th:if="${count5>0 }" class="wst-msg-tips-box" th:text="${count5}"></span>
+        </li>
+        <!--<li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==6 ?'wst-menua':''}" onclick="getMenus('/mypj')">-->
+            <!--我的评价 <span id="mId_9" th:if="${count>0&&menuid==6}" class="wst-msg-tips-box" th:text="${count}"></span>-->
+        <!--</li>-->
+    </ul>
+    <span class="wst-menu-title">帐户设置 </span>
+    <ul>
+        <li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==7 ?'wst-menua':''}" onclick="getMenus('/usercenter/my')">
+            用户资料<span id="mId_481"  th:if="${count>0&&menuid==7}" class="wst-msg-tips-box" th:text="${count}"></span>
+        </li>
+        <li class=" wst-menuas" th:class="'wst-menuas   '+${menuid==8 ?'wst-menua':''}" onclick="getMenus('/usercenter/address')">
+            用户地址<span id="mId_418"  th:if="${count>0&&menuid==8}" class="wst-msg-tips-box" th:text="${count}"></span>
+        </li>
+    </ul>
+</div>

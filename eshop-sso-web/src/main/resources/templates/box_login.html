@@ -1,0 +1,123 @@
+
+<html xmlns:th="http://www.thymeleaf.org">
+<style>
+
+    .show{
+        display: block;
+    }
+    .hide{
+        display: none;;
+    }
+</style>
+<input type="hidden" id="token" value=''/>
+<form method="post" autocomplete="off">
+    <table class="wst-table">
+        <tr class="wst-login-tr">
+            <td width='90' align='right'>账号：</td>
+            <td><input id="loginName" name="loginName" class="ipt wst-login-input"  tabindex="1" value="" autocomplete="off" type="text" data-rule="用户名: required;" data-msg-required="请填写用户名" data-tip="请输入用户名" placeholder="用户名/手机号"/></td>
+        </tr>
+        <tr class="wst-login-tr">
+            <td align='right'>密码：</td>
+            <td><input id="loginPwd" name="loginPwd" class="ipt wst-login-input" tabindex="2" autocomplete="off" type="password" data-rule="密码: required;" data-msg-required="请填写密码" data-tip="请输入密码" placeholder="密码"/> </td>
+        </tr>
+        <tr class="wst-login-tr">
+            <td align='right'>验证码：</td>
+            <td>
+                <div class="wst-item ">
+                    <div id="embed-captcha" style=" "></div>
+                    <span id="wait" class="show"  style="position: relative; width: 100%; float: left;  ">正在加载验证码......</span>
+                    <p id="notice" class="hide"  style="position: relative;  ">请先完成验证</p>
+                </div>
+            </td>
+        </tr>
+        <tr class="wst-login-tr">
+            <td colspan="2" style="padding-left:43px;">
+                <input id="rememberPwd" name="rememberPwd" class="ipt wst-login-ch" checked="checked" type="checkbox"/>
+                <label>记住密码</label>
+                <label><a style="color:#666;line-height:32px;margin-left:10px;" target='_blank' th:href="${ssourl+'/register'}">免费注册</a> </label>
+                <!--<label>&nbsp;|<a style="color:#666;line-height:32px;" target='_blank' href="">忘记密码? </a></label>-->
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" style="padding-left:200px;">
+                <div style="width: 100px;height:32px;line-height:32px;"><a class="wst-login-but" href="javascript:void(0);"  >登录</a></div>
+            </td>
+        </tr>
+    </table>
+</form>
+<script  th:src="${ssourl+'/js/gt.js'}"></script>
+<script  th:src="${ssourl+'/js/login.js'}"></script>
+
+<script>
+    $(document).keypress(function(e) {
+        if(e.which == 13) {
+            // login();
+        }
+    });
+
+    var handlerEmbed = function (captchaObj) {
+        var f=1;
+        $(".wst-login-but").click(function (e) {
+            var validate = captchaObj.getValidate();
+
+            if (!validate) {
+                $("#notice")[0].className = "show";
+                setTimeout(function () {
+                    $("#notice")[0].className = "hide";
+                }, 2000);
+                e.preventDefault();
+            }else{
+                $.ajax({
+                    url:"[[${ssourl}]]/VerifyLogin",
+                    type:'post',
+                    dataType:'json',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    data:{
+                        geetest_challenge: validate.geetest_challenge,
+                        geetest_validate: validate.geetest_validate,
+                        geetest_seccode: validate.geetest_seccode,
+                    },
+                    success:function (data) {
+                        login('[[${ssourl}]]/toLogin');
+
+                    }
+                })
+            }
+        });
+        captchaObj.appendTo("#embed-captcha");
+        captchaObj.onReady(function () {
+            $("#wait")[0].className = "hide";
+        });
+    };
+    var url="[[${ssourl}]]/GeetestStart?t="+(new Date).getTime();
+
+    $.ajax({
+        // 获取id，challenge，success（是否启用failback）
+
+        url:url, // 加随机数防止缓存
+        type: "get",
+        dataType: "json",
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (res) {
+            console.log(res.data.gt)
+            // console.log(data);
+            // 使用initGeetest接口
+            // 参数1：配置参数
+            // 参数2：回调，回调的第一个参数验证码对象，之后可以使用它做appendTo之类的事件
+            initGeetest({
+                gt: res.data.gt,
+                challenge: res.data.challenge,
+                new_captcha: res.data.new_captcha,
+                product: "float", // 产品形式，包括：float，embed，popup。注意只对PC版验证码有效
+                offline: !res.data.success ,// 表示用户后台检测极验服务器是否宕机，一般不需要关注
+                width:'310px',
+                // 更多配置参数请参见：http://www.geetest.com/install/sections/idx-client-sdk.html#config
+            }, handlerEmbed);
+        },
+
+    });
+</script>

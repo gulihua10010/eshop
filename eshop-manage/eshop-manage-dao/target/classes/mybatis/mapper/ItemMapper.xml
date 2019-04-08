@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.ItemMapper">
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.Item">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
+        <result column="sell_point" property="sellPoint" jdbcType="VARCHAR"/>
+        <result column="price" property="price" jdbcType="BIGINT"/>
+        <result column="num" property="num" jdbcType="INTEGER"/>
+        <result column="selnum" property="selnum" jdbcType="INTEGER"/>
+        <result column="barcode" property="barcode" jdbcType="VARCHAR"/>
+        <result column="place" property="place" jdbcType="VARCHAR"/>
+        <result column="image" property="image" jdbcType="VARCHAR"/>
+        <result column="product_no" property="productNo" jdbcType="VARCHAR"/>
+        <result column="cid" property="cid" jdbcType="BIGINT"/>
+        <result column="mon_sales" property="monSales" jdbcType="BIGINT"/>
+        <result column="random_id" property="randomId" jdbcType="BIGINT"/>
+        <result column="item_desc" property="itemDesc" jdbcType="LONGVARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="recommended" property="recommended" jdbcType="INTEGER"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+        <association property="itemCat" javaType="cn.jianwoo.eshop.manage.entity.ItemCat">
+            <id column="id" property="id" jdbcType="BIGINT"/>
+            <result column="name" property="name" jdbcType="VARCHAR"/>
+        </association>
+        <collection property="itemImages" ofType="cn.jianwoo.eshop.manage.entity.ItemImages">
+            <id column="imageid" property="id" jdbcType="BIGINT"/>
+            <result column="item_id" property="itemId" jdbcType="BIGINT"/>
+            <result column="images" property="images" jdbcType="VARCHAR"/>
+        </collection>
+        <!--<collection property="itemProvs" ofType="cn.jianwoo.eshop.manage.entity.ItemProv">-->
+            <!--<id column="provid" property="id" jdbcType="BIGINT"/>-->
+            <!--<result column="item_id" property="itemId" jdbcType="BIGINT"/>-->
+            <!--<result column="key" property="key" jdbcType="VARCHAR"/>-->
+            <!--<result column="value" property="value" jdbcType="VARCHAR"/>-->
+
+        <!--</collection>-->
+    </resultMap>
+    <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select *
+        from item i
+        left join  `item_cat` ic on ic.id= i.cid
+        left join  `item_images` ii on ii.item_id= i.id
+        where i.id = #{id,jdbcType=BIGINT}
+    </select>
+    <select id="getItemList" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select *
+        from  item  i left join  `item_cat` ic on ic.id= i.cid
+         order  by i.created desc
+    </select>
+    <select id="search" resultMap="BaseResultMap" >
+        select *
+        from  item  i left join  `item_cat` ic on ic.id= i.cid
+        where title   like concat('%',#{kw},'%')
+         order  by i.created desc
+    </select>
+    <delete id="delete" parameterType="cn.jianwoo.eshop.manage.entity.Item">
+       delete   from  item where id=#{id}
+    </delete>
+    <select id="getItemListByRamdom" resultMap="BaseResultMap">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+        order  by  random_id
+    </select>
+    <!--<select id="getItemListByCatLimit8" parameterType="java.lang.Long" resultMap="BaseResultMap">-->
+
+  <!--SELECT *-->
+         <!--FROM item i LEFT JOIN  `item_cat` ic ON ic.id= i.cid-->
+         <!--WHERE i.cid IN (-->
+              <!--SELECT id   FROM item_cat WHERE parent_id IN(-->
+                <!--SELECT id FROM item_cat WHERE parent_id =#{cid}-->
+        <!--)-->
+          <!--UNION-->
+        <!--(-->
+        <!--SELECT id FROM item_cat WHERE parent_id =#{cid})-->
+        <!--)-->
+          <!--and   i.status=1-->
+        <!--ORDER  BY  random_id DESC-->
+       <!--LIMIT  8-->
+
+    <!--</select>-->
+    <select id="getItemListByCatLimitByn" parameterType="java.util.Map" resultMap="BaseResultMap">
+
+  SELECT *
+         FROM item i LEFT JOIN  `item_cat` ic ON ic.id= i.cid
+         WHERE i.cid IN (
+              SELECT id   FROM item_cat WHERE parent_id IN(
+                SELECT id FROM item_cat WHERE parent_id =#{cid}
+        )
+          UNION
+        (
+        SELECT id FROM item_cat WHERE parent_id =#{cid})
+        )
+          and   i.status=1
+        ORDER  BY  #{order} DESC
+       LIMIT  #{n}
+
+    </select>
+    <select id="getItemListByRecommended" resultMap="BaseResultMap">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+         where i.recommended=1
+         and   i.status=1
+        order  by i.random_id
+    </select>
+    <select id="getItemListByNews" resultMap="BaseResultMap">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+         where   i.status=1
+        order  by i.random_id desc
+       LIMIT  2
+    </select>
+    <select id="getItemListByNewsByn"   parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+         where   i.status=1
+        order  by  i.created desc
+       LIMIT  #{n}
+    </select>
+    <select id="getItemListByMaps" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select *
+         from item     where  #{name}=#{value}
+    </select>
+    <select id="getItemListByHot" resultMap="BaseResultMap">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+         where   i.status=1
+        order  by i.mon_sales desc
+       LIMIT  2
+    </select>
+    <select id="getItemListByRecommendedWithMap" resultMap="BaseResultMap" parameterType="java.util.Map">
+        select *
+         from item i left join  `item_cat` ic on ic.id= i.cid
+         where i.recommended=1
+         and   i.status=1
+        <choose>
+            <when test='type =="liketitle"'>
+                and title like concat('%',#{params},'%')
+            </when>
+        </choose>
+        order  by i.created desc
+    </select>
+    <select id="countRecommended" resultType="java.lang.Integer">
+        select count(*)
+         from item
+         where  recommended=1
+           and    status=1
+    </select>
+    <select id="getcount" resultType="java.lang.Integer">
+        select count(*)
+         from item
+    </select>
+    <select id="getItemListByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select *
+        from item i left join `item_cat` ic on ic.id= i.cid
+        <choose>
+            <when test='type =="liketitle"'>
+                WHERE title like concat('%',#{params},'%')
+            </when>
+        </choose>
+        order  by i.created desc
+    </select>
+    <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.Item">
+
+        -- `id`， `title`， `sell_point`， `price`， `num`， `mon_sales`， `image`， `cid`， `status`， `place`， `created`，
+--         `updated`， `item_desc` ，recommended
+
+        INSERT INTO item
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="title!=null">
+                title,
+            </if>
+            <if test="sellPoint!=null">
+                sell_point,
+            </if>
+
+            <if test="price!=null">
+                price,
+            </if>
+
+            <if test="num!=null">
+                num,
+            </if>
+
+            <if test="monSales!=null">
+                mon_sales,
+            </if>
+
+            <if test="image!=null">
+                image,
+            </if>
+
+            <if test="cid!=null">
+                cid,
+            </if>
+            <if test="status!=null">
+                status,
+            </if>
+
+            <if test="place!=null">
+                place,
+            </if>
+
+            <if test="created!=null">
+                created,
+            </if>
+
+            <if test="updated!=null">
+                updated,
+            </if>
+            <if test="itemDesc!=null">
+                item_desc,
+            </if>
+            <if test="randomId!=null">
+                random_id,
+            </if>
+            <if test="productNo!=null">
+            product_no,
+        </if>
+            <if test="recommended!=null">
+                recommended,
+            </if>
+            <if test="selnum!=null">
+                selnum,
+            </if>
+        </trim>
+        <trim prefix="values (" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="title!=null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="sellPoint!=null">
+                #{sellPoint,jdbcType=VARCHAR},
+            </if>
+
+            <if test="price!=null">
+                #{price,jdbcType=BIGINT},
+            </if>
+
+            <if test="num!=null">
+                #{num,jdbcType=INTEGER},
+            </if>
+
+            <if test="monSales!=null">
+                #{monSales,jdbcType=BIGINT},
+            </if>
+
+            <if test="image!=null">
+                #{image,jdbcType=VARCHAR},
+            </if>
+
+            <if test="cid!=null">
+                #{cid,jdbcType=BIGINT},
+            </if>
+            <if test="status!=null">
+                #{status,jdbcType=INTEGER},
+            </if>
+
+            <if test="place!=null">
+                #{place,jdbcType=VARCHAR},
+            </if>
+
+            <if test="created!=null">
+                #{created,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="updated!=null">
+                #{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="itemDesc!=null">
+                #{itemDesc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="randomId!=null">
+                #{randomId,jdbcType=BIGINT},
+            </if>
+            <if test="productNo!=null">
+                #{productNo,jdbcType=VARCHAR},
+            </if>
+            <if test="recommended!=null">
+                #{recommended,jdbcType=INTEGER},
+            </if>
+            <if test="selnum!=null">
+                #{selnum,jdbcType=INTEGER},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.Item">
+        update item
+        <set>
+            <if test="title!=null">
+                title=#{title,jdbcType=VARCHAR},
+            </if>
+            <if test="sellPoint!=null">
+                sell_point=#{sellPoint,jdbcType=VARCHAR},
+            </if>
+
+            <if test="price!=null">
+                price=#{price,jdbcType=BIGINT},
+            </if>
+
+            <if test="num!=null">
+                num=#{num,jdbcType=INTEGER},
+            </if>
+
+            <if test="monSales!=null">
+                mon_sales=#{monSales,jdbcType=BIGINT},
+            </if>
+
+            <if test="image!=null">
+                image=#{image,jdbcType=VARCHAR},
+            </if>
+
+            <if test="cid!=null">
+                cid=#{cid,jdbcType=BIGINT},
+            </if>
+            <if test="status!=null">
+                status=#{status,jdbcType=INTEGER},
+            </if>
+
+            <if test="place!=null">
+                place=#{place,jdbcType=VARCHAR},
+            </if>
+
+            <if test="created!=null">
+                created=#{created,jdbcType=TIMESTAMP},
+            </if>
+
+            <if test="updated!=null">
+                updated=#{updated,jdbcType=TIMESTAMP},
+            </if>
+            <if test="itemDesc!=null">
+                item_desc=#{itemDesc,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="randomId!=null">
+                random_id= #{randomId,jdbcType=BIGINT},
+            </if>
+            <if test="productNo!=null">
+                product_no= #{productNo,jdbcType=VARCHAR},
+            </if>
+            <if test="recommended!=null">
+                recommended= #{recommended,jdbcType=INTEGER},
+            </if>
+            <if test="selnum!=null">
+                selnum= #{selnum,jdbcType=INTEGER},
+            </if>
+        </set>
+        where id=#{id,jdbcType=BIGINT}
+    </update>
+</mapper>

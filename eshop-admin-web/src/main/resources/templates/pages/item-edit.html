@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>编辑商品</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" media="all">
+    <style>
+        .form-group{
+            min-width: 20%;
+            display: inline-block;
+        ;
+        }
+        .uploader-list {
+            margin-left:55px;
+        }
+
+        .uploader-list .info {
+            position: relative;
+            margin-top: -25px;
+            background-color: black;
+            color: white;
+            filter: alpha(Opacity=80);
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+            width: 100px;
+            height: 25px;
+            text-align: center;
+            display: none;
+        }
+
+        .uploader-list .handle {
+            position: relative;
+            background-color: black;
+            color: white;
+            filter: alpha(Opacity=80);
+            -moz-opacity: 0.5;
+            opacity: 0.5;
+            width: 100px;
+            text-align: right;
+            height: 18px;
+            margin-bottom: -18px;
+            display: none;
+            text-align: center;
+        }
+
+        .uploader-list .handle span {
+            margin-right: 5px;
+        }
+
+        .uploader-list .handle span:hover {
+            cursor: pointer;
+        }
+
+        .uploader-list .file-iteme {
+            margin: 12px 0 0 15px;
+            padding: 1px;
+            float: left;
+        }
+        .addone,.addsub,.addvideo,.delone,.delsub{margin:0;padding:0;width:50px;height:50px;border:0;border-radius:30px;color:#fff;cursor:pointer}
+        .addone i,.addsub i,.addvideo i,.delone i,.delsub i{color:#fff;font-size:20px}
+        .fl{float:left}
+        .h60{height:60px}
+        .addone,.addsub{background-color:#009688}
+        .prov-collect{margin-left: 80px}
+        .addone:hover,.addsub:hover{background-color:#33aba0}
+        .delone,.delsub{background-color:red}
+        .delone:hover,.delsub:hover{background-color:#ff2100}
+        .ml50{margin-left:50px}
+        .ml110{margin-left:110px}
+        .mt20{margin-top:20px}
+
+    </style>
+</head>
+<body>
+<div class="layui-tab-brief">
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <form class=" form-container" id="layui-form"
+                  localtion-url="{:url('admin/school/index')}">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" width="200" required lay-verify="required"
+
+                               autocomplete="off" class="layui-input" th:value="${item.title}">
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item" style="width: 500px">
+                    <label class="layui-form-label">商品类别</label>
+                    <div class="layui-input-block">
+                        <input type="hidden" id="cid"  th:value="${item.cid}">
+                        商品类别为:<span  id="cat1" th:text="${item.itemCat.name}"></span> <span class="layui-btn-normal  layui-btn" id="selectcat" >更改类别</span>
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品卖点</label>
+                    <div class="layui-input-inline">
+                        <textarea name="sellpoint" cols="100" rows="5" th:text="${item.sellPoint}"
+                                  id="sellpoint"></textarea>
+
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品价格</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="price" required lay-verify="required|number"  placeholder="￥" th:value="${item.price/100.0}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">库存数量</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="num" required lay-verify="required|number" th:value="${item.num}"
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品缩略图</label>
+                    <div class="layui-input-inline">
+                        <button type="button" class="layui-btn" id="pic">
+                            <i class="layui-icon">&#xe67c;</i>上传图片
+                        </button>
+                        <input type="text" name="image" class="layui-input" th:value="${item.image}"
+                               style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required">
+                    </div>
+                </div>
+                <div class="layui-form-item" id="pre-image">
+                    <label class="layui-form-label">缩略图预览</label>
+                    <img id="uploaded-image" width="150px" th:src="@{${item.image}}">
+                </div>
+                <div class="layui-form-item">
+                    <input type="hidden" id="place" th:value="${item.place}">
+                    <label class="layui-form-label">商品地区</label>
+                        <!--<div  id="target">-->
+                          <div data-toggle="distpicker">
+                            <div class="form-group"  >
+                                <label class="sr-only" for="province">Province</label>
+                                <select class="form-control" id="province" data-province="---- 选择省 ----"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="city">City</label>
+                                <select class="form-control" id="city" data-city="---- 选择市 ----"></select>
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="district">District</label>
+                                <select class="form-control" id="district" data-district="---- 选择区 ----"></select>
+                            </div>
+                        </div>
+
+                </div>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn" id="test2">上传商品图片</button>
+                    预览图：
+                    <div class="layui-upload-list uploader-list" style="overflow: auto;" id="uploader-list">
+                <div id="" class="file-iteme"  th:each="images:${item.itemImages}">
+                    <div class="handle"><i class="layui-icon">&#xe640;</i>  </div>
+                    <img style="width: 100px;height: 100px;"  th:src="@{${images.images}}">
+                    <input type="hidden" th:value="${images.images}" class="img">
+                    <div class="info"> </div>
+                </div>
+                    </div>
+            </div>
+                <div class="layui-form-item prov">
+                    <label class="layui-form-label">添加属性</label>
+                    <div class="prov-collect" th:each="provs,stat:${itemProvs}">
+                        <div class="h60">
+                            <input type="text" name="title1" class="layui-input provkey"
+                                   style=" width: 150px;display: inline-block; " th:value="${provs.key}" placeholder="输入属性"
+                                   lay-verify="required"  />
+                            <input type="text" name="title1" class="layui-input provvalue"
+                                   style=" width: 150px;display: inline-block; " th:value="${provs.value}"  placeholder="输入属性值"
+                                   lay-verify="required"  />
+                            <button type="button" class="addone" data-id="1"  th:if="${stat.index==0}">
+                                <i class="layui-icon">&#xe654;</i>
+                            </button>
+                           <button type="button" class="delone" th:if="${stat.index>0}">
+                               <i class="layui-icon">&#xe640;</i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品描述</label>
+                    <div class="layui-input-block">
+                        <textarea id="desc" name="desc" th:text="${item.itemDesc}"></textarea>
+                    </div>
+                </div>
+
+                <input type="hidden" th:value="${item.id}" id="id">
+                <div class="btable-paged">
+                    <div class="layui-main">
+                        <div class="formbtngroup" style="position: absolute;right: -100px">
+                            <button class="layui-btn layui-btn-small" lay-submit=""   lay-filter="formadd">更新</button>
+                            <button onclick="history.go(-1);" class="layui-btn layui-btn-primary layui-btn-small">返回
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script src="/static/layuiadmin/layui/layui.all.js"></script>
+<script src="/static/js/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/static/js/common.js"></script>
+<script src="/static/js/distpicker.data.js"></script>
+<script src="/static/js/distpicker.js"></script>
+<script src="/static/plugins/tinymce/tinymce.min.js"></script>
+<script type="text/javascript">
+
+
+    layui.use(['layer', 'form', 'element', 'upload'], function () {
+        var form = layui.form
+            , $ = layui.jquery
+            , upload = layui.upload
+            , element = layui.element;
+        futext('#desc');
+        var place = $("#place").val();
+        var places = place.split('-');
+
+      $('#province').data('province',places[0])
+      $('#city').data('city',places[1])
+      $('#district').data('district',places[2])
+
+        form.render();
+
+        $('#selectcat').click(function () {
+            var index = layer.open({
+                title: ['修改类别', 'font-size:16px'],
+                type: 2,
+                shadeClose: true,
+                shade: false,
+                maxmin: true, //开启最大化最小化按钮,
+                closeBtn: 2,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['820px', '500px'], //宽高
+                content:  "/selectitemcat" ,
+                success:function(){
+                    $('#selectcat').attr('disabled','disabled' )
+                },
+                end:function(){
+                    $('#selectcat').removeAttr('disabled')
+                    // location.reload();
+                }
+            })
+        })
+
+
+        form.on('submit', function (data) {
+            var reg=new RegExp("^[1-9][0-9]*$");
+            var price=new RegExp("^[1-9][0-9.]*$");
+    if (!reg.test($('input[name=num]').val())){
+        layer.msg("请输入正确的库存", {icon: 5})
+return false;
+    }
+            if (!price.test($('input[name=price]').val())){
+                layer.msg("请输入正确的价格", {icon: 5})
+                return false;
+
+            }
+            var img=new Array();
+            var prov=new Array();
+            for (var i=0;i<$('.img').length;i++){
+                if ($('.img').eq(i).val()==''){
+                    continue;
+                } 
+                var o={"itemId":$('#id').val(),"images":$('.img').eq(i).val()}
+                img.push(o);
+            }
+            for (var i=0;i<$('.provvalue').length;i++){
+                if ($('.provkey').eq(i).val()==''||$('.provvalue').eq(i).val()==''){
+                    continue
+                }
+                var o={"itemId":$('#id').val(),"key":$('.provkey').eq(i).val(),"value":$('.provvalue').eq(i).val()}
+                prov.push(o);
+            }
+            // return false;
+
+            var formdata = JSON.stringify({
+                'title': $('input[name=title]').val()
+                ,
+                'sellPoint': $('#sellpoint').val()
+                ,
+                'price': $('input[name=price]').val()*100
+                ,
+                'num': $('input[name=num]').val()
+                ,
+                'image': $('input[name=image]').val()
+                ,
+                'place': $('#province').val() + "-" + $('#city').val() + "-" + $('#district').val()
+                ,
+                'itemDesc': tinyMCE.editors[0].getContent()
+                ,
+                 'id': $('#id').val()
+                ,'cid': $('#cid').val()
+                ,'itemImages': img
+                ,'itemProvs': prov
+            })
+// console.log($('#province:selected').val()  )
+// console.log($('#province:selected')  )
+// console.log($('#province').val()  )
+// console.log($('#province').val() + "-" + $('#city').val()   )
+// console.log($('#province')+ "-" + $('#city')   )
+                ajaxform(formdata, "/Item/editItem", $, function () {
+                    window.location.href = "/item";
+                })
+
+
+            return false;
+        });
+        upload.render({
+            elem: '#test2'
+            ,url: '/uploadfile'
+            ,multiple: true
+            ,before: function(obj){
+                layer.msg('图片上传中...', {
+                    icon: 16,
+                    shade: 0.01,
+                    time: 0
+                })
+            }
+            ,done: function(res){
+                layer.close(layer.msg());//关闭上传提示窗口
+                //上传完毕
+                $('#uploader-list').append(
+                    '<div id="" class="file-iteme">' +
+                    '<div class="handle"><i class="layui-icon">&#xe640;</i>  </div>' +
+                    '<img style="width: 100px;height: 100px;" src='+ res.data.url +'>' +
+                    '<input type="hidden"  value="'+res.data.url+'" class="img">' +
+                    '<div class="info">' + res.data.name + '</div>' +
+                    '</div>'
+                );
+            }
+        });
+        $(document).on("mouseenter mouseleave", ".file-iteme", function(event){
+            if(event.type === "mouseenter"){
+                //鼠标悬浮
+                $(this).children(".info").fadeIn("fast");
+                $(this).children(".handle").fadeIn("fast");
+            }else if(event.type === "mouseleave") {
+                //鼠标离开
+                $(this).children(".info").hide();
+                $(this).children(".handle").hide();
+            }
+        });
+        // 删除图片
+        $(document).on("click", ".file-iteme .handle", function(event){
+            $(this).parent().remove();
+        });
+        $('.prov').on('click', '.addone', function () {
+            var onelevel = " <div class=\"prov-collect\"  > <div class=\"h60 \" style=''>\n" +
+                "                       <input type=\"text\"    placeholder=\"输入属性\" class=\"layui-input provkey\"\n" +
+                "                               style=\" width: 150px;display: inline-block; \" lay-verify=\"required\"/>\n" +
+                "                       <input type=\"text\"    placeholder=\"输入属性值\" class=\"layui-input  provvalue\"\n" +
+                "                               style=\" width: 150px;display: inline-block; \" lay-verify=\"required\"/>\n" +
+                "                        <button type=\"button\" class=\"delone\"  >\n" +
+                "                            <i class=\"layui-icon\">&#xe640;</i>\n" +
+                "                        </button> \n" +
+                "                   </div>    </div>";
+            $('.prov').append(onelevel);
+
+        })
+        $('.prov').on('click', '.delone', function () {
+            $(this).parent().parent().remove();
+        });
+        upload.render({
+            url: '/uploadfile'
+            , elem: '#pic'
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                $('input[name=image]').val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                $("#pre-image").css('display', 'block');
+                $('#uploaded-image').attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

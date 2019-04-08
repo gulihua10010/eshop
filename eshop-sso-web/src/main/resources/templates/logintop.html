@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div class="wst-header wst-color" th:fragment="top">
+        <div class="wst-nav">
+            <ul class="headlf">
+                <li class="drop-info">
+                    <div>欢迎来到[[${webconfig.get('name')}]]<a href="/login" onclick="WST.currentUrl();">&nbsp;&nbsp;请&nbsp;登录</a></div>
+                </li>
+                <li class="spacer">|</li>
+                <li class="drop-info">
+                    <div><a href="/register" onclick="WST.currentUrl();">免费注册</a></div>
+                </li>
+            </ul>
+            <ul class="wst-icon">
+                <li class="wst-img-icon"></li><li class="wst-remind">欢迎登陆!</li>
+            </ul>
+            <div class="wst-clear"></div>
+        </div>
+    </div>
+    <div class="wst-login-banner" th:fragment="top1">
+        <div class="wst-icon-banner">
+            <a href="/index"  th:href="${homeurl}+'/index'" th:title="${webconfig.get('name')}">
+                <div class="img-banner">
+                    <img  th:src="${webconfig.get('logo')}"  >
+                </div>
+            </a>
+            <div class="wst-stript"></div>
+            <div class="wst-login-action">
+                <div class="wst-left">用户登录</div>
+                <div class="wst-right-action">
+                    <div class="action-box">
+                        没有账号?<a class="wst-login-but wst-location" href="/register" onclick="WST.currentUrl();">立即注册</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

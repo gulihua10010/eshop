@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!-- saved from url=(0020)http://localhost/ws/ -->
+<html xmlns:th="http://www.thymeleaf.org">
+<head  th:replace="head::head"></head>
+<body>
+ <div  th:replace="top::top"></div>
+ <div  th:replace="header::header"></div>
+
+<div class="wst-main" style="background:#F4F4F4;padding-top:10px">
+
+    <div class="rec_area">
+        <div class="ral fl">
+            <a href=" " th:href="${webconfig.get('homead1_url')}" onfocus="this.blur()">
+                <img class="goodsImg"  th:src="${webconfig.get('homead1')}" style="display: inline;" th:attr="data-original=${webconfig.get('homead1')}">
+            </a>
+        </div>
+        <div class="rac fl">
+            <div class="rac_t">
+                <p class="rac_t_tit">最新上架</p>
+                <ul class="rac_t_main">
+                    <li th:each="new2:${new2}">
+                        <a class="rac_t_img" href=" " th:href="${itemurl}+'?id='+${new2.id}">
+                            <img width="120"  th:attr="data-original=${new2.image}"   class="goodsImg"  th:src="${new2.image}" style="display: block;">
+                        </a>
+                        <a href=""  th:href="${itemurl}+'?id='+${new2.id}">
+                            <div class="rac_t_info">
+                                <p class="c14_333 rac_gname" th:text="${new2.title}"></p>
+                                <p class="c14_333 rac_gprice"><span class="f12">￥</span><span th:text="${new2.price/100.0}"></span></p>
+                            </div>
+                        </a>
+                    </li>
+                    <div class="wst-clear"></div>
+                </ul>
+            </div>
+            <div class="rac_t">
+                <p class="rac_t_tit" style="border-top:1px solid #ddd;">热销上架</p>
+                <ul class="rac_t_main">
+                    <li th:each="hot2:${hot2}">
+                        <a class="rac_t_img" href=" " th:href="${itemurl}+'?id='+${hot2.id}">
+                            <img width="120" th:attr="data-original=${hot2.image}" class="goodsImg" th:src="${hot2.image}" style="display: block;">
+                        </a>
+                        <a href=" " th:href="${itemurl}+'?id='+${hot2.id}">
+                            <div class="rac_t_info">
+                                <p class="c14_333 rac_gname" th:text="${hot2.title}"> </p>
+                                <p class="c14_333 rac_gprice"><span class="f12">￥</span><span th:text="${hot2.price/100.0}"></span></p>
+                            </div>
+                        </a>
+                    </li>
+
+                    <div class="wst-clear"></div>
+                </ul>
+            </div>
+        </div>
+        <div class="rar fr">
+            <p class="rar_tit">推荐商品</p>
+            <div class="rar_glist">
+                <div class="recomgd_view">
+                    <ul class="recomgd_list" style="width: 500%; left: -394px;">
+                        <li th:each="recomm:${recomm}">
+                            <a href=" " class="rar_gitem" th:href="${itemurl}+'?id='+${recomm.id}">
+                                <div class="rar_img">
+                                    <img  th:attr="data-original=${recomm.image}" class="J_rarimg" th:src="${recomm.image}"  style="display: block;">
+                                </div>
+                                <p class="rar_gname"  th:text="${recomm.title}"> </p>
+                                <div class="rar_line"></div>
+                                <p class="rar_gdesc"></p>
+                                <p class="rar_price">
+                                    <span class="f12">￥</span><span th:text="${recomm.price/100.0}"></span></p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div class="recomgd_btns">
+                    <span class="curr"   th:class="${stat.index==0?'curr':''}" th:each="recomm,stat:${recomm}"></span>
+                </div>
+            </div>
+        </div>
+        <div class="wst-clear"></div>
+    </div>
+
+    <div class="wst-container">
+
+        <div class="floor-box" th:each="homeitem,stat:${homeitem}">
+            <div class="floor-header c1" id="c1"  th:class="'floor-header  c'+${stat.count}"  th:id="'c'+${stat.count}">
+                <div   th:class="'floor-header-f'+${stat.count}">
+                    <p class="floor-right-title" th:text="${homeitem.name}"> </p>
+                </div>
+
+                <ul class="tab">
+                    <li  th:class="'tab-item'+${stat.count}+' j-tab-selected'+${stat.count}" th:id="'fl_'+${stat.count}+'_0'"   onmouseover="gpanelOver(this);" th:attr="c=${stat.count}">
+                        <a href="http://localhost/ws/category-52.html">热门</a>
+                    </li>
+
+                    <li  th:class="'tab-item'+${stat.count} "   th:attr="c=${stat.count}" th:id="'fl_'+${stat.count}+'_'+${stat1.count}"  th:each="subcat,stat1:${homeitem.itemCats}" onmouseover="gpanelOver(this);" c="1"><a href="http://localhost/ws/category-190.html" th:text="${subcat.name}"> </a></li>
+
+                </ul>
+            </div>
+
+            <div class="floor-right" id="fl_1_0_pl" th:id="'fl_'+${stat.count}+'_0_pl'">
+                <div class="floor-right-ads">
+
+                    <div class="wst-floor-slide-1" id="wst-floor-slide-1" th:id="'wst-floor-slide-'+${stat.count}" th:class="'wst-floor-slide-'+${stat.count}">
+                        <ul class="wst-floor-slide-items">
+                            <li style="z-index: 1;">
+                                <a href="/index" ><img class="goodsImg"   th:src="${homeitem.pic}" style="display: inline;"></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="goods-list">
+
+                    <div class="goods goods-f1"  th:class="'goods goods-f'+${stat.count} " th:each="item0,s0:${homeitem.items}">
+                        <div class="img"><a target="_blank" th:href="${itemurl}+'?id='+${item0.id}"  th:title="${item0.title}"><img  th:title="${item0.title}" class="goodsImg"  th:attr="data-original=${item0.image}"  th:src="${item0.image}"  style="display: inline;"></a></div>
+                        <div class="p-name"><a target="_blank" th:href="${itemurl}+'?id='+${item0.id}" class="wst-redlink" th:title="${item0.title}" th:text="${item0.title}">title</a></div>
+                        <div>
+                            <div class="p-price" th:text="'￥'+${item0.price/100.0}">price</div>
+                        </div>
+                    </div>
+
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="wst-clear"></div>
+            </div>
+
+
+            <div class="floor-right" id="fl_1_2_pl" th:id="'fl_'+${stat.count}+'_'+${stat1.count}+'_pl'"
+                 style="display:none;"   th:each="subcat,stat1:${homeitem.itemCats}">
+                <div class="goods-list">
+
+                    <div class="goods goods-f1" th:class="'goods goods-f'+${stat.count} "   th:each="item1:${subcat.items}">
+                        <div class="img"><a target="_blank" th:href="${itemurl}+'?id='+${item1.id}" th:title="${item1.title}"><img th:title="${item1.title}" class="goodsImg" th:attr="data-original=${item1.image}"  th:src="${item1.image}"style="display: inline;"></a></div>
+                        <div class="p-name"><a target="_blank" th:href="${itemurl}+'?id='+${item1.id}" class="wst-redlink" th:title="${item1.title}" th:text="${item1.title}">  </a></div>
+                        <div>
+                            <div class="p-price" th:text="'￥'+${item1.price/100.0}">price</div>
+
+                        </div>
+                    </div>
+
+                    <div class="wst-clear"></div>
+                </div>
+            </div>
+
+            <div class="wst-clear"></div>
+        </div>
+
+
+    </div>
+    <div class="wst-clear"></div>
+    <div class="wst-container">
+
+        <div class="like_goods_list">
+            <div class="lg_tit">猜你喜欢</div>
+            <div class="lg_glist">
+                <a target="_blank"  th:href="${itemurl}+'?id='+${like.id}" class="fmr_gitem fl"  th:title="${like.title}" th:each="like:${likes}">
+                    <div class="fmr_img">
+                        <img th:title="${like.title}" class="goodsImg" data-original="/ws/upload/goods/2019-02/5c6fdbb43c60b_thumb.jpg" src="./商淘软件多用户商城系统 - 为创业赋能，为电商提速 Powered By WSTMart_files/5804802a4b162.png">
+                    </div>
+                    <p class="fmr_gname" th:text="${like.title}"></p>
+                    <p class="fmr_gprice">
+                        <span class="f12">￥</span>[[${like.price/100.0}]]			</p>
+                </a>
+
+                <div class="wst-clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="footer-line"></div>
+<div class="wst-footer-help">
+
+</div>
+
+
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+
+
+ <script>
+
+     $('#logout').click(function () {
+         WST.logout("[[${ssourl}]]"+'/loginout',"/index")
+     })
+
+ </script>
+</body></html>

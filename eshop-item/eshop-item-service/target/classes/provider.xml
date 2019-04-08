@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd
+		http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+	<!-- 1、指定当前服务/应用的名字（同样的服务名字相同，不要和别的服务同名） -->
+	<!--<dubbo:application name="itemcat-service-provider" ></dubbo:application>-->
+
+	<!--<dubbo:parameter key="qos.enable" value="true"/>-->
+	<!--<dubbo:parameter key="qos.accept.foreign.ip" value="false"/>-->
+	<!--<dubbo:parameter key="qos.port" value="25000"/>-->
+
+	<!-- 2、指定注册中心的位置 -->
+	 <!--<dubbo:registry address="zookeeper://127.0.0.1:2181"></dubbo:registry>-->
+	<dubbo:registry protocol="zookeeper" address="192.168.99.103:2181"></dubbo:registry>
+	
+	<!-- 3、指定通信规则（通信协议？通信端口） -->
+	<dubbo:protocol name="dubbo" port="20881"></dubbo:protocol>
+	
+	<!-- 4、暴露服务   ref：指向服务的真正的实现对象 -->
+	<dubbo:service interface="cn.jianwoo.eshop.item.api.ItemCatService"
+		ref="ItemCatService" timeout="1000" version="1.0.0">
+	</dubbo:service>
+	<dubbo:service interface="cn.jianwoo.eshop.item.api.ItemService"
+				   ref="ItemService" timeout="1000" version="1.0.0">
+	</dubbo:service>
+	<dubbo:service interface="cn.jianwoo.eshop.item.api.ItemImagesService"
+				   ref="ItemImagesService" timeout="1000" version="1.0.0">
+	</dubbo:service>
+	<dubbo:service interface="cn.jianwoo.eshop.item.api.ItemProvService"
+				   ref="ItemProvService" timeout="1000" version="1.0.0">
+	</dubbo:service>
+	<!--统一设置服务提供方的规则  -->
+	<dubbo:provider timeout="1000"></dubbo:provider>
+
+
+	<!-- 服务的实现 -->
+	<bean id="ItemCatService" class="cn.jianwoo.eshop.item.service.impl.ItemCatServiceImpl"></bean>
+	<bean id="ItemService" class="cn.jianwoo.eshop.item.service.impl.ItemServierImpl"></bean>
+	<bean id="ItemImagesService" class="cn.jianwoo.eshop.item.service.impl.ItemImagesServiceImpl"></bean>
+	<bean id="ItemProvService" class="cn.jianwoo.eshop.item.service.impl.ItemProvServiceImpl"></bean>
+
+	
+	<!-- 连接监控中心 -->
+	<dubbo:monitor protocol="registry"></dubbo:monitor>
+	
+</beans>

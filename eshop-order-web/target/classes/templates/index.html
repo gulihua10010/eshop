@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-container">
+    <div id="stepflex" class="stepflex">
+        <dl class="first doing ">
+            <dt class="s-num">1</dt>
+            <dd class="s-text">我的购物车</dd>
+            <dd></dd>
+        </dl>
+        <dl class="normal doing">
+            <dt class="s-num">2</dt>
+            <dd class="s-text">填写核对订单信息</dd>
+        </dl>
+        <dl class="third">
+            <dt class="s-num1">3</dt>
+            <dd class="s-text1">支付</dd>
+        </dl>
+        <dl class="last">
+            <dt class="s-num1">4</dt>
+            <dd class="s-text1">成功提交订单</dd>
+        </dl>
+    </div>
+    <div class="wst-clear"></div>
+    <div class="main-head">填写并核对订单</div>
+    <input type="hidden" class="j-ipt" id="s_addressId" value="0" th:value="${address==null?'':address.id}" name="addressId">
+    <input type="hidden" class="j-ipt" id="s_areaId" value="" >
+    <!-- 用户地址 -->
+    <div class="address-box">
+        <div class="box-head">收货人信息 <a class="add-addr j-selected" href="javascript:;" onclick="javascript:emptyAddress(this,1)">新增收货地址</a></div>
+        <!-- 选中地址 -->
+        <div class="j-show-box  " th:if="${ishasAddress==true}">
+            <div id="s_userName" class="wst-frame1 j-selected">  [[${address.receiverName}]] <i></i></div>
+            <div class="address" onmouseover="addrBoxOver(this)" onmouseout="addrBoxOut(this)">
+	          <span id="s_address" >
+                  [[${address.receiverName}]]  &nbsp;&nbsp;  [[${address.receiverProvinces}]]  [[${address.receiverCity}]]  [[${address.receiverDistrict}]]
+                  &nbsp;&nbsp;  [[${address.receiverAddress}]]  &nbsp;&nbsp; [[${address.receiverPhone}]]
+	          	          </span>
+                &nbsp;&nbsp;
+                <span id="isdefault" class="j-default" th:if="${isdefault}">默认地址 </span>
+                <div class="operate-box">
+                    <a href="javascript:void(0)" th:onclick="'javascript:toEditAddress('+${address.id}+',this,1,1,1)'" onclick="javascript:toEditAddress(1,this,1,1,1)">编辑</a>&nbsp;&nbsp;
+                </div>
+            </div>
+
+            <div class="wst-clear"></div>
+
+            <div class="address">
+                <a class="wst-lfloat" href="javascript:void(0)" onclick="javascript:showEditAddressBox()" style="">更多地址</a>
+            </div>
+
+        </div>
+        <!-- 地址列表  -->
+        <ul class="j-list-box  " th:if="${ishasAddress==true}" id="addressList"></ul>
+
+        <!-- 新增编辑地址 -->
+        <div class="j-edit-box  layui-layer-wrap" style="display: none;">
+            <form id="addressForm" autocomplete="off">
+                <input type="hidden" class="j-eipt" id="addressId"  name="id" value="0">
+                <div class="rows">
+                    <div class="label">收货人<font color="red">*</font>：</div>
+                    <div class="field"><input type="text" class="j-eipt" id="userName"  name="receiverName"  maxlength="25"></div>
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="rows">
+                    <div class="label">收货地址<font color="red">*</font>：</div>
+                    <div class="field">
+
+                        <div data-toggle="distpicker" id="distpicker">
+                            <select class="form-control j-eipt" name="receiverProvinces" ></select>
+                            <select class="form-control j-eipt"  name="receiverCity"></select>
+                            <select class="form-control j-eipt" name="receiverDistrict"></select>
+                        </div>
+                        <input type="text" class="j-eipt" id="userAddress"   name="receiverAddress" style="width:300px" maxlength="200">
+                    </div>
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="rows">
+                    <div class="label">联系电话<font color="red">*</font>：</div>
+                    <div class="field"><input type="text" id="userPhone" class="j-eipt"  name="receiverPhone"  maxlength="50">  </div>
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="rows">
+                    <div class="label">是否默认地址<font color="red">*</font>：</div>
+                    <div class="radio-box">
+                        <label style="margin-right:36px;">
+                            <input type="radio" name="isDefault" value="1" checked="" class="j-eipt wst-radio" id="isDefault1"><label class="mt-1" for="isDefault1"></label>是
+                        </label>
+                        <label>
+                            <input type="radio" name="isDefault" value="0" class="j-eipt wst-radio" id="isDefault2"><label class="mt-1" for="isDefault2"></label>否
+                        </label>
+                    </div>
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="rows">
+                    <a href="javascript:void(0)" class="wst-cart-reda" id="saveAddressBtn" onclick="javascript:editAddress()" style="width:105px;line-height:33px;padding:6px 15px">保存收货人地址</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 支付方式 -->
+    <div class="pay-box">
+        <div class="box-head">支付方式</div>
+        <div class="wst-list-box">
+
+            <div class="wst-frame2 j-selected" onclick="javascript:changeSelected(0,'payType',this)">货到付款<i></i></div>
+
+            <div class="wst-frame2 "  onclick="javascript:changeSelected(1,'payType',this)">在线支付<i></i></div>
+            <input type="hidden" value="0" id="payType" class="j-ipt" name="paymentType" >
+            <div class="wst-clear"></div>
+        </div>
+    </div>
+    <!-- 商品清单 -->
+    <div class="cart-box2">
+        <div class="box-head2">商品清单</div>
+        <div class="cart-head2">
+            <div class="goods2">商品</div>
+            <div class="price2">单价</div>
+            <div class="num2">数量</div>
+            <div class="t-price2">总价</div>
+        </div>
+        <div class="cart-item j-shop" dataval="1">
+            <div class="shop2">
+                自营超市
+            </div>
+            <div class="goods-list" th:if="items!=null">
+                <div class="item selected j-g4" th:each="item:${items}">
+                    <div class="goods2">
+                        <div class="img2">
+                            <a   th:href="${itemurl}+'/item/detail?id='+item.id" target="_blank">
+                                <img   th:src="${item.image}" width="80" height="80"  th:title="${item.title}">
+                            </a>
+                        </div>
+                        <div class="name2">[[${item.title}]]</div>
+                        <div class="spec2">
+                        </div>
+                    </div>
+                    <div class="price2">¥[[${item.price/100.00}]]</div>
+                    <div class="num2">[[${item.selnum}]]</div>
+                    <div class="t-price2">¥[[${item.price/100.00*item.selnum}]]</div>
+                    <div class="wst-clear"></div>
+                </div>
+                <div class="shop-remark selected2">
+                    <div class="shop-remark-box">
+                        订单备注：<input type="text" id="remark_1" class="j-ipt" name="buyerMessage" style="width:420px" maxlength="100" placeholder="给卖家留言">
+                    </div>
+                    <div class="shop-summary">
+                        <input type="hidden" class="j-ipt" name="token"  th:value="${token}">
+                        <input type="hidden" class="j-ipt" name="payment"  th:value="${totalprice}">
+                        <div class="row">
+                            <dt>运费：</dt><dd>￥<span id="shopF_1" style="font-weight: bold;color: #E55356;">0</span></dd>
+                        </div>
+                        <div class="row">
+                            <dt>合计(含运费)：</dt><dd>￥<span id="shopC_1" v="19.9" style="font-weight: bold;color: #E55356;" th:text="${totalprice}"></span></dd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cart-btn">
+
+        <a href="javascript:void(0)" onclick="javascript:submitOrder()" class="wst-order wst-cart-reda" style="width:118px;height:33px;line-height:33px;">提交订单</a>
+        <div class="wst-clear"></div>
+    </div>
+</div>
+<script async="async" type="text/javascript" src="/js/index.js"></script>
+
+
+<script src="/js/distpicker.js"></script>
+<script async="async" type="text/javascript" src="/js/carts.js"></script>
+
+<script>
+
+
+</script>
+</body>
+</html>

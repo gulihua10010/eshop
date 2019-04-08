@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="top">
+    <div class="wst-header">
+        <div class="wst-nav">
+            <ul class="headlf" th:if="${isLogin==false||user==null}">
+                <li class="drop-info">
+                    <div>欢迎来到商城系统<a href="" th:href="${ssourl}+'/login'" >&nbsp;&nbsp;请&nbsp;登录</a></div>
+                </li>
+                <li class="spacer">|</li>
+                <li class="drop-info">
+                    <div><a th:href="${ssourl}+'/register'"   >免费注册</a></div>
+                </li>
+            </ul>
+            <ul class="headlf" th:if="${isLogin==true&&user!=null}">
+                <li class="drop-info">
+                    <div class="drop-infos">
+                        <a href=" ">欢迎您，[[${user.nickName}]]</a>
+                    </div>
+                    <div class="wst-tag dorpdown-user">
+                        <div class="wst-tagt">
+                            <div class="userImg" >
+                                <img class='usersImg'   th:attr="data-original=${user.avatar}"/>
+                            </div>
+                            <div class="wst-tagt-n">
+                                <div>
+                                    <span class="wst-tagt-na">[[${user.nickName}]]</span>
+                                </div>
+                                <div class='wst-tags'>
+                                    <span class="w-lfloat"><a  href='' th:href="${userurl}+'/usercenter/index'">用户资料</a></span>
+                                </div>
+                            </div>
+                            <div class="wst-tagb" >
+                                <a   href=' '  th:href="${userurl}+'/user/noshou'">待收货订单</a>
+                            </div>
+                            <div class="wst-clear"></div>
+                        </div>
+                    </div>
+                </li>
+                <li class="spacer">|</li>
+                <li class="drop-info">
+                    <div><span style="cursor: pointer"  id="logout">退出</span></div>
+                </li>
+            </ul>
+
+            <ul class="headrf" style="float:right;">
+                <li class="j-dorpdown" style="width: 86px;">
+                    <div class="drop-down drop-down6 pdr5">
+                        <a  th:href="${userurl}+'/user/complateorder'"   target="_blank">我的订单<i class="di-right"><s>◇</s></i></a>
+                    </div>
+                    <div class="j-dorpdown-layer order-list">
+                        <div><a  th:href="${userurl}+'/user/nopayorder'"  >待付款订单</a></div>
+                        <div><a  th:href="${userurl}+'/user/noshou'"  >待收货订单</a></div>
+                        <div><a   th:href="${userurl}+'/user/nopjorder'" >待评价订单</a></div>
+                    </div>
+                </li>
+                <!--<li class="spacer">|</li>-->
+                <!--<li class="j-dorpdown">-->
+                <!--<div class="drop-down drop-down5 pdr5"><a href="http://localhost/ws/#" target="_blank">我的收藏</a></div>-->
+                <!--<div class="j-dorpdown-layer foucs-list">-->
+                <!--<div><a href="http://localhost/ws/home/favorites/goods.html" onclick="WST.position(41,0)">商品收藏</a></div>-->
+                <!--<div><a href="http://localhost/ws/home/favorites/shops.html" onclick="WST.position(46,0)">店铺收藏</a></div>-->
+                <!--</div>-->
+                <!--</li>-->
+                <!--<li class="spacer">|</li>-->
+                <!--<li class="j-dorpdown">-->
+                <!--<div class="drop-down drop-down4 pdr5"><a href="http://localhost/ws/#" target="_blank">商家管理<i class="di-right"><s>◇</s></i></a></div>-->
+                <!--<div class="j-dorpdown-layer foucs-list">-->
+                <!--<div><a href="http://localhost/ws/shop/index/login.html" target="_blank">商家登录</a></div>-->
+                <!--<div><a href="http://localhost/ws/home/shops/join.html" rel="nofollow" onclick="WST.currentUrl(&#39;/ws/home/shops/join.html&#39;);">商家入驻</a></div>-->
+                <!--</div>-->
+                <!--</li>-->
+            </ul>
+            <div class="wst-clear"></div>
+        </div>
+    </div>
+</div>
+<script>
+
+    $('#logout').click(function () {
+        WST.logout("[[${ssourl}]]","/index")
+    })
+
+</script>

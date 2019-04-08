@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-main">
+    <div th:replace="left::menu"></div>
+
+    <div class="wst-content">
+
+        <div>
+            <div class="u-base-info">
+                <div class="info-lcol">
+                    <div class="u-pic">
+                        <img class="usersImg"   th:src="${user.avatar}" style="display: inline-block;">
+
+                    </div>
+                    <div class="info-m">
+                        <div class="u-name">
+                            <a href="#" target="_blank">[[${user.nickName}]]</a>
+                        </div>
+
+                        <div class="info-line">
+                            <span class="top-icon"></span>
+                            <span class="bottom-icon"></span>
+                            <span class="left-icon"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-rcol">
+                    <div class="user-counts">
+                        <ul>
+                            <li>
+                                <div class="count-item">
+                                    <a href="/user/nopayorder" target="_self">
+                                        <i class="count-icon count-icon01"></i> 待付款
+                                        <em id="waitPay">[[${count1}]]</em>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="count-item">
+                                    <a href="/user/noshou" target="_self">
+                                        <i class="count-icon count-icon02"></i> 待收货
+                                        <em id="waitReceive">[[${count2}]]</em>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="count-item">
+                                    <a href="/user/complateorder" target="_self">
+                                        <i class="count-icon count-icon03"></i> 已收货
+                                        <em id="waitPick">[[${count4}]]</em>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="count-item">
+                                    <a href="/user/nopjorder">
+                                        <i class="count-icon count-icon04"></i> 待评价
+                                        <em id="waitAppr">[[${count3}]]</em>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mod-main">
+            <div class="mt">
+                <h3>最近的订单</h3>
+            </div>
+        </div>
+        <div class="mc">
+            <div id="tb-order" class="tb-order">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                    <tr th:each="o:${orders}">
+                        <td>
+                            <div class="img-list">
+                                <a href="" th:href="${itemurl}+'/item/detail?id='+${o.id}" target="_blank">
+                                    <img   class="goodsImg" th:src="${o.orderItems.get(0).picPath}" style="display: inline-block;">
+                                </a>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="u-name">ee</div>
+                        </td>
+                        <td>￥[[${o.payment}]]<br > <span th:text="${o.paymentType==1?'在线支付':'货到付款'}"></span> </td>
+                        <td>
+                                  <span class="ftx-03" th:text="${#dates.format(o.createTime,'yyyy-MM-dd HH:mm')}">    </span>
+                        </td>
+                        <td class="td-01">
+                            <!--状态：1、未付款，2、已付款，3、未发货，4、已发货，5、已收获 未评价 6已评价 0订单取消-->
+                            <strong class="ftx-04 order-statu" th:if="o.status==1">未付款  </strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==2"> 已付款 </strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==3"> 未发货</strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==4"> 已发货 </strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==5"> 已收获  </strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==6">  已评价</strong>
+                            <strong class="ftx-04 order-statu" th:if="o.status==0"> 订单取消  </strong>
+                        </td>
+                        <td class="order-doi">
+                            <a target="_blank" href="/" th:href="${userurl}+'/order/detail?oid='+${o.orderId}">查看</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+</body>
+</html>

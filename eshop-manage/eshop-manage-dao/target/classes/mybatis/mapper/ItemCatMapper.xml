@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.ItemCatMapper" >
+    <resultMap id="BaseResultMap" type="cn.jianwoo.eshop.manage.entity.ItemCat" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="pic" property="pic" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="INTEGER" />
+        <result column="sort_order" property="sortOrder" jdbcType="INTEGER" />
+        <result column="created" property="created" jdbcType="TIMESTAMP" />
+
+    </resultMap>
+    
+    <select id="getItemCatByParentId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT  *
+        FROM item_cat
+        WHERE parent_id = #{parentId, jdbcType=BIGINT}
+        order  by  sort_order
+    </select>
+
+    <select id="getItemCatNameById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT *
+        FROM  item_cat
+        WHERE id = #{id}
+    </select>
+    <delete id="delete" parameterType="cn.jianwoo.eshop.manage.entity.ItemCat">
+        delete  from   item_cat where id=#{id}
+    </delete>
+    <delete id="deletebyParent" parameterType="cn.jianwoo.eshop.manage.entity.ItemCat">
+        delete  from   item_cat where parent_id=#{id}
+    </delete>
+  <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.ItemCat" keyProperty="id" useGeneratedKeys="true">
+--       `id` `parent_id` `name` `status` `sort_order` `is_parent` `created` `updated`
+
+      insert  into item_cat
+      <trim prefix="(" suffixOverrides="," suffix=")">
+          <if test="id!=null">
+              id,
+          </if>
+          <if test="parentId!=null">
+              parent_id,
+          </if>
+          <if test="name!=null">
+              name,
+          </if>
+          <if test="status!=null">
+              status,
+          </if>
+          <if test="sortOrder!=null">
+              sort_order,
+          </if>
+
+          <if test="created!=null">
+              created,
+          </if>
+          <if test="pic!=null">
+              pic,
+          </if>
+      </trim>
+<trim prefix="values (" suffix=")" suffixOverrides=",">
+    <if test="id!=null">
+        #{id,jdbcType=BIGINT},
+    </if>
+    <if test="parentId!=null">
+        #{parentId,jdbcType=BIGINT},
+    </if>
+    <if test="name!=null">
+        #{name,jdbcType=VARCHAR},
+    </if>
+    <if test="status!=null">
+        #{status,jdbcType=INTEGER},
+    </if>
+    <if test="sortOrder!=null">
+        #{sortOrder,jdbcType=INTEGER},
+    </if>
+
+    <if test="created!=null">
+    #{created,jdbcType=TIMESTAMP},
+  </if>
+    <if test="pic!=null">
+        #{pic,jdbcType=VARCHAR},
+    </if>
+</trim>
+  </insert>
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.ItemCat">
+    update   item_cat
+    <set>
+        <if test="parentId!=null">
+            parent_id= #{parentId,jdbcType=BIGINT},
+        </if>
+        <if test="name!=null">
+            name=  #{name,jdbcType=VARCHAR},
+        </if>
+        <if test="status!=null">
+            status=   #{status,jdbcType=INTEGER},
+        </if>
+        <if test="sortOrder!=null">
+            sort_order=   #{sortOrder,jdbcType=INTEGER},
+        </if>
+        <if test="created!=null">
+            created= #{created,jdbcType=TIMESTAMP},
+        </if>
+
+        <if test="pic!=null">
+            pic= #{pic,jdbcType=VARCHAR},
+        </if>
+
+    </set>
+where id=  #{id,jdbcType=BIGINT}
+
+    </update>
+</mapper>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-main">
+    <div th:replace="left::menu"></div>
+
+    <div class="wst-content">
+
+        <div class="wst-user-head"><span>管理地址</span></div>
+        <input type="button" value="新增收货地址" class="wst-sec-but u-btn addr-btn" onclick="location.href='addaddress'">
+        <label>你已经创建<span class="g g1" th:text="${address.size()}" ></span>个收货地址</label>
+
+            <table class='wst-addr' th:each="a:${address}" >
+                <tr>
+                    <td th:text="${a.receiverName}+' '+${a.receiverProvinces}" >  </td>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                        <p class="default" th:if="${a.isDefault==1}">默认地址</p>
+
+                        <a  th:onclick="'javascript:delAddress('+${a.id}+')'" class='del'>X</a>
+                    </td>
+                </tr>
+
+
+                <tr><td class="addr-title">收货人：</td>
+                    <td th:text="${a.receiverName}"> </td>
+                </tr>
+                <tr><td class="addr-title">所在地区：</td>
+                    <td th:text="${a.receiverProvinces}+${a.receiverCity}+${a.receiverDistrict}"> </td>
+                </tr>
+                <tr><td class="addr-title">地址：</td>
+                    <td th:text="${a.receiverAddress}"> </td>
+                </tr>
+                <tr><td class="addr-title">联系电话：</td>
+                    <td th:text="${a.receiverPhone}"></td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class='edit'>
+                        <a    th:href="'javascript:editAddress('+${a.id}+')'" >编辑</a>
+
+                        <a   th:href="'javascript:setDefault('+${a.id}+')'"   th:if="${a.isDefault!=1}">设为默认</a>
+
+                        <div class="wst-clear"></div>
+                    </td>
+                </tr>
+            </table>
+    </div>
+</div>
+
+<script type="text/javascript" src="/js/user.js"></script>
+<script type="text/javascript" src="/js/useraddress.js"></script>
+
+</body>
+</html>

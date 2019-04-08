@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>商城系统</title>
+    <link href="/css/common.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/plugins/layer/layer.js"></script>
+    <link rel="stylesheet" href="/plugins/layer/skin/layer.css" id="layui_layer_skinlayercss" style="">
+    <script type="text/javascript" src="/js/common.js"></script>
+
+    <script type="text/javascript" src="/js/fun.js"></script>
+
+
+    <link href="/plugins/validator/jquery.validator.css" rel="stylesheet">
+    <link href="/css/login.css" rel="stylesheet">
+    <link href="/css/carts.css" rel="stylesheet">
+    <script type="text/javascript" src="/plugins/validator/jquery.validator.min.js"></script>
+    <script type="text/javascript" src="/js/rsa.js"></script>
+    <script>
+        window.conf = {"ROOT":"/",
+            "APP":"/",
+            "STATIC":"/",
+            "SUFFIX":"html",
+            "SMS_VERFY":"1",
+            "SMS_OPEN":"1"
+            ,"GOODS_LOGO":""
+            ,"SHOP_LOGO":"",
+            "MALL_LOGO":"",
+            "USER_LOGO":"",
+            "ITEM_URL":"[[${itemurl}]]",
+            "IS_LOGIN":"[[${isLogin==true?1:0}]]",
+            "ORDER_URL":"[[${orderurl}]]",
+            "USER_URL":"[[${userurl}]]",
+
+            "TIME_TASK":"1"
+            ,"ROUTES":"",
+            "MAP_KEY":"",
+            'RESOURCE_PATH':'/'}
+        $(function() {
+            WST.initVisitor();
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

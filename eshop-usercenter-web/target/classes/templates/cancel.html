@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="head::head"></head>
+<body>
+<div th:replace="top::top"></div>
+<div th:replace="header::header"></div>
+
+<div class="wst-main">
+    <div th:replace="left::menu"></div>
+
+    <div class="wst-content">
+
+        <div class="wst-user-head"><span>待评价订单</span></div>
+        <div class="wst-user-tbar">
+            订单号：<input type="text" class="u-query" id="orderNo"  name="orderId">
+            <button class="wst-sec-but u-btn" onclick="waitReceiveByPage('/user/cancelorder')">查询</button>
+        </div>
+        <div class="wst-user-content">
+            <table class="wst-order-list">
+                <thead>
+                <tr class="head">
+                    <th>订单详情</th>
+                    <th width="115">支付方式/配送信息</th>
+                    <th>金额</th>
+                    <th width="110">操作</th>
+                </tr>
+                </thead>
+                <tbody id="loadingBdy">
+                <tr id="loading" class="empty-row" style="display: none;">
+                    <td colspan="4"><img src="/img/loading.gif">正在加载数据...</td>
+                </tr>
+                </tbody>
+                <tbody class="j-order-row" th:each="order:${orders}">
+                <tr class='empty-row'>
+                    <td colspan='4'>&nbsp;</td>
+                </tr>
+                <tr class='order-head'>
+                    <td colspan='4' align='right'>
+                        <div class='time' th:text="${#dates.format(order.createTime,'yyyy-MM-dd HH:mm')}"></div>
+                        <span class='orderno' style="width: 40%">订单号：[[${order.orderId}]]
+                        </span>
+                        <div class='shop' style="margin-left: 30px"> 自营超市</div>
+
+                        <div>
+                            <span style="color: #ccc" >已取消</span>
+
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class='goods-box' th:each="item,s:${order.orderItems}">
+                    <td >
+                        <div class='goods-img'>
+                            <a th:href="${itemurl}+'/item/detail?id='+${item.itemId} " target='_blank'>
+                                <img th:attr="data-original=${item.picPath}"  th:src="${item.picPath}" th:title="${item.title}" class="gImg">
+                            </a>
+                        </div>
+                        <div class='goods-name'>
+                            <div>[[${item.title}]]</div>
+                        </div>
+                        <div class='goods-extra'>￥[[${item.price/100.00}]]*[[${item.num}]]</div>
+
+                    </td>
+
+                    <td rowspan="2" th:rowspan="${order.orderItems.size()}" th:if="${s.index==0}">
+                        <div th:text="${order.paymentType==1?'在线支付':'货到付款'}"></div>
+                    </td>
+                    <td th:rowspan="${order.orderItems.size()}"th:if="${s.index==0}">
+                        <div>商品金额：¥[[${order.payment}]]</div>
+                        <div class='line'>运费：¥0</div>
+                        <div>实付金额：¥[[${order.payment}]]</div>
+                    </td>
+                    <td th:rowspan="${order.orderItems.size()}" th:if="${s.index==0}">
+
+                        <div><a href='' th:href="${userurl}+'/order/detail?oid='+${order.orderId}">【订单详情】</a></div>
+
+                    </td>
+                </tr>
+
+                </tbody>
+                <tbody>
+                <tr class="empty-row">
+                    <td colspan="4" id="pager" align="center" style="padding:5px 0px 5px 0px"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+<div style="clear:both;"></div>
+<br>
+</body>
+</html>

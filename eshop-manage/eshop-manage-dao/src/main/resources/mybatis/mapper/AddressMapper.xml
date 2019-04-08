@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.jianwoo.eshop.manage.mapper.AddressMapper">
+    <resultMap id="baseResultMap" type="cn.jianwoo.eshop.manage.entity.Address">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="uid" property="uid" jdbcType="BIGINT"/>
+        <result column="receiver_name" property="receiverName" jdbcType="VARCHAR"/>
+        <result column="receiver_phone" property="receiverPhone" jdbcType="VARCHAR"/>
+        <result column="receiver_mobile" property="receiverMobile" jdbcType="VARCHAR"/>
+        <result column="receiver_provinces" property="receiverProvinces" jdbcType="VARCHAR"/>
+        <result column="receiver_city" property="receiverCity" jdbcType="VARCHAR"/>
+        <result column="receiver_district" property="receiverDistrict" jdbcType="VARCHAR"/>
+        <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR"/>
+        <result column="receiver_zip" property="receiverZip" jdbcType="VARCHAR"/>
+        <result column="created" property="created" jdbcType="TIMESTAMP"/>
+        <result column="updated" property="updated" jdbcType="TIMESTAMP"/>
+        <result column="is_default" property="isDefault" jdbcType="INTEGER"/>
+
+    </resultMap>
+    <!--`id` `uid` `receiver_name` `receiver_phone` `receiver_mobile` `receiver_provinces` `receiver_city`
+    `receiver_district` `receiver_address` `receiver_zip` `created` `updated`-->
+    <insert id="insert" parameterType="cn.jianwoo.eshop.manage.entity.Address" keyProperty="id" useGeneratedKeys="true">
+        insert into address
+        <trim prefix="(" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                id,
+            </if>
+            <if test="uid!=null">
+                uid,
+            </if>
+            <if test="receiverName!=null">
+                receiver_name,
+            </if>
+            <if test="receiverPhone!=null">
+                receiver_phone,
+            </if>
+            <if test="receiverMobile!=null">
+                receiver_mobile,
+            </if>
+            <if test="receiverProvinces!=null">
+                receiver_provinces,
+            </if>
+            <if test="receiverCity!=null">
+                receiver_city,
+            </if>
+            <if test="receiverDistrict!=null">
+                receiver_district,
+            </if>
+            <if test="receiverAddress!=null">
+                receiver_address,
+            </if>
+            <if test="receiverZip!=null">
+                receiver_zip,
+            </if>
+            <if test="created!=null">
+                created,
+            </if>
+            <if test="updated!=null">
+                updated,
+            </if>
+            <if test="isDefault!=null">
+                is_default,
+            </if>
+        </trim>
+        <trim prefix="values (" suffixOverrides="," suffix=")">
+            <if test="id!=null">
+                #{id},
+            </if>
+            <if test="uid!=null">
+                #{uid},
+            </if>
+            <if test="receiverName!=null">
+                #{receiverName},
+            </if>
+            <if test="receiverPhone!=null">
+                #{receiverPhone},
+            </if>
+            <if test="receiverMobile!=null">
+                #{receiverMobile},
+            </if>
+            <if test="receiverProvinces!=null">
+                #{receiverProvinces},
+            </if>
+            <if test="receiverCity!=null">
+                #{receiverCity},
+            </if>
+            <if test="receiverDistrict!=null">
+                #{receiverDistrict},
+            </if>
+            <if test="receiverAddress!=null">
+                #{receiverAddress},
+            </if>
+            <if test="receiverZip!=null">
+                #{receiverZip},
+            </if>
+            <if test="created!=null">
+                #{created},
+            </if>
+            <if test="updated!=null">
+                #{updated},
+            </if>
+            <if test="isDefault!=null">
+                #{isDefault},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="cn.jianwoo.eshop.manage.entity.Address">
+        update address
+        <set>
+        <if test="uid!=null">
+            uid= #{uid},
+        </if>
+        <if test="receiverName!=null">
+            receiver_name= #{receiverName},
+        </if>
+        <if test="receiverPhone!=null">
+            receiver_phone= #{receiverPhone},
+        </if>
+        <if test="receiverMobile!=null">
+            receiver_mobile= #{receiverMobile},
+        </if>
+        <if test="receiverProvinces!=null">
+            receiver_provinces= #{receiverProvinces},
+        </if>
+        <if test="receiverCity!=null">
+            receiver_city= #{receiverCity},
+        </if>
+        <if test="receiverDistrict!=null">
+            receiver_district=#{receiverDistrict},
+        </if>
+        <if test="receiverAddress!=null">
+            receiver_address=   #{receiverAddress},
+        </if>
+        <if test="receiverZip!=null">
+            receiver_zip=   #{receiverZip},
+        </if>
+        <if test="created!=null">
+            created=#{created},
+        </if>
+        <if test="updated!=null">
+            updated=  #{updated},
+        </if>
+            <if test="isDefault!=null">
+                is_default=  #{isDefault},
+            </if>
+        </set>
+        where id=  #{id}
+
+    </update>
+    <update id="updateDefault" parameterType="cn.jianwoo.eshop.manage.entity.Address">
+        update address
+        <set>
+            <if test="isDefault!=null">
+                is_default= 0,
+            </if>
+        </set>
+        where   uid= #{uid}
+    </update>
+    <select id="getaddressbyid" parameterType="java.lang.Long" resultMap="baseResultMap">
+
+        select  * from address
+        where id=#{id}
+
+    </select>
+    <select id="getAddresslist"  resultMap="baseResultMap">
+
+        select  * from address
+
+    </select>
+    <select id="getAddresslistByUid"   parameterType="java.lang.Long" resultMap="baseResultMap">
+
+        select  * from address
+        where uid=#{uid}
+
+    </select>
+    <select id="getAddresslistByUidDefault"   parameterType="java.lang.Long"  resultMap="baseResultMap"  >
+
+        select  * from address
+        where uid=#{uid} and is_default=1
+
+    </select>
+    <delete id="delete"  parameterType="cn.jianwoo.eshop.manage.entity.Address">
+        delete  from address where  id=#{id}
+
+    </delete>
+</mapper>

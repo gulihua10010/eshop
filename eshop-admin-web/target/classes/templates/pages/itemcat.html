@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>商品类别</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="/static/layuiadmin/layui/css/v1/build/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/static/layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+<button class="layui-btn layui-btn-sm layui-btn-primary" id="expand" style="margin-left: 20px">展开</button>
+<button class="layui-btn layui-btn-sm layui-btn-primary" id="collapse">收起</button>
+<button class="layui-btn layui-btn-sm" id="addNode2">添加根节点</button>
+<button class="layui-btn layui-btn-sm   layui-btn-danger  " id="delselect">删除选中节点</button>
+
+<div class="layui-tab layui-tab-brief">
+    <ul class="layui-tab-title">
+        <li class="layui-this">商品类别树</li>
+        <li>根类别图片</li>
+    </ul>
+
+    <div class="layui-form form-container layui-tab-content">
+
+        <div class="layui-tab-item layui-show">
+            <ul id="itemcat"></ul>
+        </div>
+        <div class="layui-tab-item"  >
+            <div class="layui-form-item  cats"  th:each="cat,stat:${cats}">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"  th:text="${cat.name}"></label>
+                    <div class="layui-input-inline">
+                        <button type="button" class="layui-btn" id="pic" th:id="pic+${stat.count}">
+                            上传类型图片
+                        </button>
+                        <input type="text" name="image1" th:name="image+${stat.count}" class="layui-input image catimg"  th:value="${cat.pic}"
+                               style="position: absolute;left: 111px;top: 0px;width: 500px;" lay-verify="required">
+                        <input type="hidden"    class="catid"  th:value="${cat.id}"
+                         >
+                    </div>
+                </div>
+                <div class="layui-form-item" id="pre-image1" th:id="pre-image+${stat.count}"  >
+                    <label class="layui-form-label">图片预览</label>
+                    <img id="uploaded-image1" th:id="'uploaded-image'+${stat.count}"  th:src="${cat.pic}" width="150px">
+                </div>
+            </div>
+        </div>
+
+        <div class="btable-paged">
+            <div class="layui-main">
+                <div class="formbtngroup"  >
+                    <button class="layui-btn layui-btn-small" style="margin-left: 900px" lay-submit="" lay-filter="formadd">确定</button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<script src="/static/layuiadmin/layui/css/v1/build/layui/layui.js"></script>
+<script src="/static/js/jquery-1.9.1.min.js"></script>
+<script src="/static/js/common.js"></script>
+<script>
+
+
+    var layout = [
+        {name: '商品类别', treeNodes: true, headerClass: 'value_col', colClass: 'value_col', style: ''},
+        {
+            name: '操作',
+            headerClass: 'value_col',
+            colClass: 'value_col',
+            style: 'width: 30%',
+            render: function (row) {
+                return "<a class='layui-btn layui-btn-danger layui-btn-sm  del' data-id=" + row + "><i class='layui-icon'>&#xe640;</i> 删除</a>" +
+                    "<a class='layui-btn layui-btn-primary layui-btn-sm edit' data-id=" + row + "><i class='layui-icon'>&#xe642;</i> 编辑</a>" +
+                    "<a class='layui-btn layui-btn-primary layui-btn-sm  addsub'  data-id=" + row + "><i class='layui-icon'>&#xe642;</i> 添加子节点</a>"; //列渲染
+            }
+        },
+    ];
+
+    layui.use(['element', 'form', 'treetable', 'layer', 'upload'], function () {
+
+
+        var layer = layui.layer, form = layui.form, $ = layui.jquery, element = layui.element            , upload = layui.upload
+        ;
+        for (var i=1;i<=$('.cats').length;i++){
+            uploads('#pic'+i, $('input[name=image'+i+']'), $("#pre-image"+i ),  $('#uploaded-image'+i));
+        }
+        form.on('submit', function (data) {
+
+            var ppt=new Array();
+            for(var i=0;i<$('.cats').length;i++){
+                var id=$('.catid').eq(i).val();
+                var pic=$('.catimg').eq(i).val();
+                ppt.push({'id':id,'pic':pic})
+            }
+            console.log(ppt);
+            // return false;
+            var formdata  = JSON.stringify(ppt)
+            ajaxform(formdata,"/updatecatpic",$,function (res) {
+                location.reload();
+            })
+        })
+        $.get("/Item/getItemCatlistByTree", function (res) {
+            var tree = layui.treetable({
+                elem: '#itemcat', //传入元素选择器
+                spreadable: false, //设置是否全展开，默认不展开
+                checkbox: true,
+                nodes: res,
+                layout: layout
+            });
+//itemcat
+            form.render();
+            $('#collapse').on('click', function () {
+                tree.collapse();
+            });
+
+            $('#expand').on('click', function () {
+                tree.expand();
+            });
+            $('#itemcat').on('click', '.addsub', function () {
+                var pid = $(this).data('id');
+                // console.log(pid.id)
+                layer.prompt({title: '请输入类别'}, function (value, index) {
+                    var ii = layer.load(0, {shade: false});
+                    ajaxform('', "/Item/addItemCat?name=" + value + "&pid=" + pid.id, $, function (res) {
+                        if (res.status == 200) {
+                            tree.addNode(tree.getNode(pid.id), {
+                                "id": res.data.id, "name": res.data.name,
+                            });
+                            layer.closeAll()
+                        }
+
+                    })
+
+                });
+            });
+            $('#itemcat').on('click', '.edit', function () {
+                var id = $(this).data('id');
+                // console.log(pid.id)
+                layer.prompt({title: '编辑', value: id.name,}, function (value, index) {
+                    var ii = layer.load(0, {shade: false});
+                    ajaxform('', "/Item/editItemCat?name=" + value + "&id=" + id.id, $, function (res) {
+                        if (res.status == 200) {
+                            var node = tree.getNode(id.id);
+                            node.name = value;
+                            tree.editNodeName(node);
+                            layer.closeAll()
+                        }
+                        layer.closeAll()
+                    })
+
+                });
+            });
+
+            $('#delselect').on('click', function () {
+
+                // console.log(pid.id)
+                layer.confirm('真的删除选中的吗？', function () {
+                    layer.msg('正在删除', {icon: 16}, function () {
+
+
+                        ajaxform(JSON.stringify(tree.getSelected()), "/Item/delSelectItemCat", $, function (res) {
+                            if (res.status == 200) {
+                                console.log(tree.getSelected().length)
+                                console.log(tree.getSelected())
+                                for (var i = 0; i < tree.getSelected().length;) {
+                                    var node = tree.getNode(tree.getSelected()[i].id);
+                                    tree.removeNode(node);
+                                }
+
+                                layer.closeAll()
+                            }
+                            layer.closeAll()
+                        })
+                        layer.msg('成功删除', {icon: 1})
+                    });
+                });
+
+            });
+            $('#itemcat').on('click', '.del', function () {
+                var id = $(this).data('id');
+                // console.log(pid.id)
+                layer.confirm('真的删除吗？', function () {
+                    layer.msg('正在删除', {icon: 16}, function () {
+                        ajaxform('', "/Item/delItemCat?id=" + id.id, $, function (res) {
+                            if (res.status == 200) {
+                                var node = tree.getNode(id.id);
+                                tree.removeNode(node);
+                                layer.closeAll()
+                            }
+                            layer.closeAll()
+                        })
+                        layer.msg('成功删除', {icon: 1})
+                    });
+                });
+
+            });
+            $('#addNode2').on('click', function () {
+                layer.prompt({title: '请输入类别'}, function (value, index) {
+                    var ii = layer.load(0, {shade: false});
+                    ajaxform('', "/Item/addItemCat?name=" + value + "&pid=0", $, function (res) {
+                        if (res.status == 200) {
+                            tree.addNode(null, {
+                                "id": res.data.id, "name": res.data.name,
+                            });
+                            layer.closeAll()
+
+                        }
+
+                    })
+                });
+
+            });
+        });
+       function  uploads(elem,input,pre,preimg) {
+        upload.render({
+            url: '/uploadfile'
+            , elem: elem
+            , ext: 'jpg|png|gif'
+            , before: function (input) {
+                loading = layer.load(2, {
+                    shade: [0.2, '#000']
+                });
+            }
+            , done: function (res) {
+                layer.close(loading);
+                input.val(res.data.url);
+                layer.msg(res.msg, {icon: 1, time: 1000});
+                pre.css('display', 'block');
+                preimg.attr('src',  res.data.url);
+            }, error: function () {
+                layer.close(loading);
+                layer.msg('上传出错：1', {
+                    title: '提示'
+                    //不自动关闭
+                    , time: 1000
+                    , icon: 5
+                    , offset: '400px'
+                });
+            }
+        });
+
+        }
+    });
+
+</script>
+</body>
+</html>

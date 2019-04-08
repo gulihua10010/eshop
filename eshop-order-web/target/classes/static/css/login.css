@@ -1,0 +1,84 @@
+@CHARSET "UTF-8"; 
+/*登录*/
+body{margin: 0;
+padding: 0;}
+.wst-login_l{width: 99.9%; height:525px;}
+.wst-login_l_shop{width: 99.9%; height:475px;}
+.wst-login_r{margin-top:3%; padding:30px 100px 20px 46px; float:right; border:1px solid #dad7d7; background: white;}
+.wst-login-u{margin: 0 auto; width:120px; height:36px; display: block; font-size: 25px;  } 
+input.wst-login-input-1{margin: 1px;float: left; padding:2px; padding-left:5px; font-size: 15px; outline: none; width:269px; height:36px;border:0;}
+input.wst-login-input{padding:0px; padding-left:5px; font-size: 15px; outline: none; width:300px; height:36px;  border:1px solid #eee;}
+input.wst-regist-input{margin: 1px;float: left; padding:2px; padding-left:5px; font-size: 15px; outline: none; width:269px; height:36px;border:1px solid #eee;}
+.wst-login-input:focus,.wst-login-input-1:focus,.wst-regist-input:focus,.wst-login-codein-1:focus,.wst-login-codein:focus,.wst-regist-codein:focus,.wst-regist-codemo:focus{ border:1px solid #eb654a; }
+.wst-table{margin-top:20px; color: #333;font: 12px/150% "Hiragino Sans GB","Microsoft Yahei",arial,宋体,"Helvetica Neue",Helvetica,STHeiTi,sans-serif;}
+.wst-login-tr{height:30px;}
+.wst-login-code-1,.wst-regist-code{height:36px;  } input.wst-login-codein-1,input.wst-regist-codein{padding:0px; padding-left:5px; width:150px; height:36px; position:absolute;left: 38px; font-size: 15px; outline: none; border:0; }
+.wst-login-codeim-1{margin-left:148px; }
+.wst-login-ch{border:1px solid #eb654a; }
+.wst-login-but{display: block; position: relative; background:#E45050; color: #ffffff; text-align: center; font-family: 'Ubuntu', sans-serif; font-size: 15px; font-weight: bold; text-decoration: none; border-radius: 3px; overflow: hidden; -webkit-transition: all 0.15s ease-in; transition: all 0.15s ease-in; }
+.wst-login-but:hover {background: #ea3232; }
+.wst-login-but:before {content: ' '; position: absolute; background: #ffffff; width: 25px; height: 50px; top: 0; left: -45px; opacity: 0.3; -webkit-transition: all 0.25s ease-out; transition: all 0.25s ease-out; -webkit-transform: skewX(-25deg); transform: skewX(-25deg); }
+.wst-login-but:hover:before {width: 45px; left: 205px; }
+.wst-login-three{height: 30px; display: block; margin-top: 15px; } /*注册*/ .wst-regist{padding:100px 20px 60px 20px; }
+.wst-regist-b{background:url(../img/img_regist.png) no-repeat; background-size: cover; margin-top:3px; border-top: 2px solid #eee;border-bottom: 2px solid #eee;}
+.wst-regist-c{width: 760px; margin: 0 auto; padding:20px; border-radius:5px; }
+.wst-regist-head{font-size:28px; font-family:"楷体"; color:#E45050; text-align:center; } input.wst-regist-input{width:400px; margin-left:20px; }
+.wst-regist-td{text-align:right; width: 150px; font-size: 15px; color:#626262; }
+.wst-regist-code-1{margin-left:20px; } input.wst-regist-codein{width:150px;}
+.wst-regist-codeim{margin-left:288px; } input.wst-regist-codemo{padding:0px; margin-left: 20px; padding-left:5px; font-size: 15px; outline: none; width:260px; height:36px;  border:1px solid #eee; }
+.wst-regist-obtain{width:134px; background:#f0efef; border-radius: 3px; border: 1px solid #eee; padding:10px 0px; cursor:pointer; color: #110f0f; border:1px solid #eee;}
+.wst-regist-but{outline: none; background:#e45050; color: #ffffff; border: 1px solid #ea3232; border-radius:3px; cursor:pointer; }
+.wst-regist-but:hover{background: #ea3232; }
+.wst-regist-but:not(.disabled):not(:disabled):active, .wst-regist-but.active{background: #ea3232; background-clip: padding-box; } /*找回密码*/ .stepflex{float:right; border-top: 5px solid #ccc; text-align: center; width: 640px; margin: 60px 0px 0px 50px; }
+.stepflex dl{border-top: 5px solid #ccc; float: left; position: relative; top: -5px; width: 160px; } dl.doing{border-top-color: #04bd3d; }
+.doing .s-num{background-position: -23px 0; }
+.s-num,.s-num1{color: #fff; font-weight: 700; height: 23px; line-height: 23px; margin: -15px auto 0; position: relative; width: 23px; border-radius:25px; }
+.s-num{background: #04bd3d; }
+.s-num1{background: #ccc; }
+.s-text{line-height:30px; }
+.forget-pwd{width: 750px; margin:50px auto 50px; padding:25px 0px 48px 0px; border:1px solid #bac4c3; border-radius:6px; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); } input.wst-forget-input{padding: 0px; margin-left:20px; padding-left:5px; font-size: 15px; outline: none; width:300px; height:36px; border-radius:3px; border:1px solid #bac4c3; }
+.wst-forget-code,.wst-forget-code2{float:left; width:300px; height:36px; border-radius:3px; margin-left:20px; border:1px solid #bac4c3; } input.wst-forget-codein,input.wst-forget-codein2{padding: 0px; padding-left:5px; width:180px; height:36px; position:absolute; font-size: 15px; outline: none; border:0; border-radius:6px; }
+.wst-forget-input:focus,.wst-forget-codein:focus,.wst-forget-codein2:focus{border-radius:3px; border:1px solid #eb654a; }
+.wst-forget-codeim,.wst-forget-codeim2{width:116px; border-top-right-radius:6px; border-bottom-right-radius:6px; margin-left:183px; }
+.wst-forget-code2{width:230px; } input.wst-forget-codein2{width:120px; }
+.wst-forget-codeim2{width:112px; margin-left:118px; }
+.email-verify{display:none; }
+.wst-forget-td{text-align:right; width: 260px; font-size: 15px; color:#626262; }
+.wst-forget-te{margin-left:20px; font-size: 15px; }
+.wst-forget-select{margin-left:20px; font-size: 15px; outline: none; width:230px; height:36px; border-radius:3px; border:1px solid #bac4c3; }
+.wst-forget-obtain{width:134px; height: 36px; background:#f0efef; border-radius: 3px; border: 1px solid #d3c8c7; padding:10px 0px; cursor:pointer; color: #110f0f; }
+.wst-forget-c{text-align:center; }
+.wst-forget-ct{font-size: 16px; color:#2d2727; }
+.wst-icon-banner{width: 1200px;margin:0 auto;}
+.wst-icon{width: 120px;height: 30px; display: inline-block;float: right;}
+.wst-icon li{float:left;}
+.wst-icon .wst-remind{color:red;font-size: 12px;padding-left: 10px;height: 30px;line-height: 30px;}
+.wst-img-icon{width: 23px;height: 23px; background: url(../img/icon_login02.png) no-repeat;background-size: contain;margin-top: 3px;}
+.wst-login-banner{width: 99.9%;height: 160px; }
+.wst-login-banner .img-banner{height:130px; margin: 10px 10px 10px 120px; float: left;}
+.wst-login-banner .img-banner img{height: 100%;}
+.wst-login-banner .wst-stript{width: 2px;height: 110px;margin-top: 25px;margin-left: 20px; background: #eee;float: left;}
+.wst-login-banner .wst-login-action{width:630px;height: 130px; float: right; margin: 10px 10px 10px 10px;}
+.wst-login-action .wst-left{width: 200px;height: 130px; float: left;text-align: center;line-height: 130px;font-family:微软雅黑;font-weight: bold;font-size: 25px;}
+.wst-login-action .wst-right-action{width: 200px;height: 130px;float: right;}
+.wst-login-action .action-box{padding-top: 50px; line-height: 27px;}
+.action-box .wst-location{width: 100px;height: 25px;float: right;line-height: 25px;font-size: 12px;margin-right: 40px;}
+.wst-login-middle{height: 527px; background: rgba(255,76,76,0.78);}
+.wst-login-middle-shop{height: 477px; background: rgb(86,169,253);}
+.wst-color{background: white;}
+.wst-login-banner-regist{width: 99.9%;height: 100px; }
+.wst-login-banner-regist .img-banner{height:90px; margin: 10px 10px 10px 100px; float: left;}
+.wst-login-banner-regist .img-banner img{height: 100%;}
+.wst-login-banner-regist .wst-login-action{width:400px;height: 80px; float: right; margin: 10px 10px 10px 10px;}
+.wst-item{position: relative;margin-bottom: 20px;}
+.wst-item-box{border: 1px solid #eee;height: 38px;width: 310px;}
+.wst-item-box .login-img{ position: relative;z-index: 3;top: 0;left: 0; width: 28px;height: 28px;margin-top: 5px; margin-left: 4px;margin-right: 2px; border-right: 1px solid #eee;background: url(../img/icon_name.png) 1px no-repeat;background-size: 85%;float: left;}
+.password-img{position: relative;z-index: 3;top: 0;left: 0; width: 28px;height: 28px;margin-top: 5px;margin-left: 4px; margin-right: 2px; border-right: 1px solid #eee;float: left;background: url(../img/icon_passard.png) 1px no-repeat;background-size: 85%;}
+.yanzheng-img{position: relative;z-index: 3;top: 0;left: 0; width: 28px;height: 28px;margin-top: 5px; margin-left: 4px;margin-right: 2px; border-right: 1px solid #eee;float: left;background: url(../img/icon_yanzhengma.png) 1px no-repeat;background-size: 85%;}
+.bottom-stript{width: 100%;height: 20px;border:1px solid red;}
+.regist-border{border:1px solid #eee;}
+
+
+.wst-login-code,.wst-regist-code{height:36px; border:1px solid #eee; }
+	.wst-login-codeim{margin-left:188px; }
+	 input.wst-login-codein{padding:0px; padding-left:5px; width:180px; height:36px; position:absolute; font-size: 15px; outline: none;border:0; }

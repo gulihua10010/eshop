@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="header">
+
+    <div class="wst-search-container">
+        <div class="wst-logo">
+            <a href="/index"  th:href="${homeurl}+'/index'" title="商城系统" th:title="${webconfig.get('name')}">
+                <img th:src="${webconfig.get('logo')}" height="120" width="240" title="商城系统" alt="商城系统"
+                     th:title="${webconfig.get('name')}" th:alt="${webconfig.get('name')}">
+            </a>
+        </div>
+        <div class="wst-search-box">
+            <div class="wst-search">
+                <input type="hidden" id="search-type" value="0">
+                <ul class="j-search-box">
+                    <li class="j-search-type">
+                        搜<span>商品</span>&nbsp;<i class="arrow"> </i>
+                    </li>
+                    <li class="j-type-list">
+                        <div data="1">店铺</div>
+                    </li>
+                </ul>
+                <input type="text" id="search-ipt" class="search-ipt" placeholder="商品" value="">
+                <input type="hidden" id="adsGoodsWordsSearch" value="商品">
+                <input type="hidden" id="adsShopWordsSearch" value="店铺">
+                <div id="search-btn" class="search-btn" onclick="javascript:WST.search(this.value)">搜索</div>
+            </div>
+            <div class="wst-search-keys">
+            </div>
+        </div>
+        <div class="wst-cart-box">
+            <a href="http://localhost/ws/home/carts/index.html" target="_blank"
+               onclick=""><span class="word j-word">我的购物车<span
+                    class="num" id="goodsTotalNum" style="display:none">0</span></span></a>
+            <div class="wst-cart-boxs hide">
+                <div id="list-carts"></div>
+                <div id="list-carts2"></div>
+                <div id="list-carts3"></div>
+                <div class="wst-clear"></div>
+            </div>
+        </div>
+
+        <script id="list-cart" type="text/html">
+            {{# for(var i = 0; i < d.list.length; i++){ }}
+            <div class="goods" id="j-goods{{ d.list[i].cartId }}">
+                <div class="imgs"><a href="/" th:href="${itemurl+'?id={{ d.list[i].id }}'}"><img
+                        class="goodsImgc" data-original="{{ d.list[i].image }}" src="{{ d.list[i].image }}"
+                        title="{{ d.list[i].title }}"></a></div>
+                <div class="number"><p><a href=""  >{{ d.list[i].title }}</a>
+                </p>
+                    <p>数量：{{ d.list[i].num }}</p></div>
+                <div class="price"><p>￥{{ d.list[i].price1 }}</p><span><a
+                        href="javascript:WST.delCheckCart({{ d.list[i].id }})">删除</a></span></div>
+            </div>
+            {{# } }}
+        </script>
+    </div>
+    <div class="wst-clear"></div>
+
+    <div class="wst-nav-menus">
+        <div class="nav-w" style="position: relative;">
+            <div class="w-spacer"></div>
+            <div class="dorpdown  " id="wst-categorys">
+                <div class="dt j-cate-dt">
+                    <a href="javascript:void(0)">全部商品分类</a>
+                </div>
+                <div class="dd j-cate-dd" style="display:none">
+                    <div class="dd-inner">
+
+                        <div th:id="'cat-icon-'+${stat.count}" class="item fore1 " th:each="cats,stat:${itemCats}">
+                            <span class="arrow"></span>
+                            <h3>
+                                <div th:class="'cat-icon-'+${stat.count}"></div>
+                                <a href="http://localhost/ws/category-52.html" th:href="'http://www.baidu.com'"
+                                   target="_blank" th:text="${cats.name}"></a>
+                            </h3>
+                        </div>
+
+                    </div>
+                    <div style="display: none;" class="dorpdown-layer" id="index_menus_sub">
+                        <div class="item-sub" i="1" th:attr="i=${stat.count}" th:each="catlist,stat:${itemCatstree}">
+                            <div class="subitems">
+                                <dl class="fore2" th:each="catsub1,stat1:${catlist.children}">
+                                    <dd>
+                                        <a class="cat2_tit" target="_blank" href="http://localhost/ws/category-190.html"
+                                           th:text="${catsub1.name}">
+                                            <i>&gt;</i>
+                                        </a>
+                                        <a target="_blank" href="http://localhost/ws/category-204.html"
+                                           th:each="catsub2:${catsub1.children}" th:text="${catsub2.name}"></a>
+                                        <div class="wst-clear"></div>
+                                    </dd>
+                                </dl>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="wst-nav-items">
+            <ul>
+                <li class="fore1" th:each="menu:${menu}">
+                    <a th:href="@{${menu.url}}" th:text="${menu.name}" th:target="${menu.target}"> </a>
+                </li>
+
+            </ul>
+        </div>
+        <script>
+            $(document).keypress(function (e) {
+                if (e.which == 13) {
+                    $('#search-btn').click();
+                }
+            });
+        </script>
+    </div>
+    <div class="wst-clear"></div>
+</div>
